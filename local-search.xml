@@ -30,5 +30,30 @@
   
   
   
+  <entry>
+    <title>Typora使用PicGo配置七牛云图床</title>
+    <link href="/2022/06/12/2022/06/Typora-PicGo/"/>
+    <url>/2022/06/12/2022/06/Typora-PicGo/</url>
+    
+    <content type="html"><![CDATA[<h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><ol><li><a href="https://www.typora.io/#download">Typora</a></li><li><a href="https://github.com/Molunerfinn/PicGo/releases">PicGo 2.3.0</a></li><li>已备案好的<a href="https://www.hichina.com/">域名</a></li><li><a href="https://portal.qiniu.com/kodo/overview">七牛云</a>OSS空间</li></ol><p><strong>注意：</strong></p><ul><li>域名备案、七牛云OSS空间配置及域名绑定不在本教程讨论范围，如需配置请自行百度。</li><li>如果出现软件无法下载，请刷新网页多试几次</li></ul><h2 id="PicGo配置"><a href="#PicGo配置" class="headerlink" title="PicGo配置"></a>PicGo配置</h2><h3 id="1-参数配置"><a href="#1-参数配置" class="headerlink" title="1.参数配置"></a>1.参数配置</h3><p>打开软件，图床设置–&gt;七牛图床，配置相关参数，如下图：</p><p><img src="/img/2022/06/12/image-20211016143740260.png"></p><p><strong>参数解析：</strong></p><ul><li>AccessKey和SecretKey：分别对应七牛云网站–&gt;个人中心–&gt;密钥管理中的AK和SK</li><li>存储空间名：对应七牛云网站–&gt;对象存储–&gt;空间管理–&gt;空间名称</li><li>访问网址：对应七牛云网站对象存储空间配置的CDN加速域名</li><li>存储区域：华东–z0，华北–z1，华南–z2</li><li>网址后缀：可不填，也可自定义</li><li>存储路径：可不填，也可自定义</li></ul><h3 id="2-上传验证"><a href="#2-上传验证" class="headerlink" title="2.上传验证"></a>2.上传验证</h3><p>在上传区上传一张图片验证是否能够上传成功以及图片URL是否正确</p><p><img src="/img/2022/06/12/image-20211016145153456.png"></p><p>到此，PicGo配置七牛云图床完毕！</p><h2 id="Typora配置"><a href="#Typora配置" class="headerlink" title="Typora配置"></a>Typora配置</h2><p>打开Typora，找到文件–&gt;偏好设置–&gt;图像，修改配置如下：</p><p><img src="/img/2022/06/12/image-20211016145745133.png"></p><p>其中，PicGo路径需要根据自己的安装路径自行修改。</p><p>最后，点击验证图片上传选项，如果出现如下图就表示成功了！</p><p><img src="/img/2022/06/12/image-20211016150318894.png"></p><p><strong>参考链接：</strong></p><ol><li><a href="https://www.jianshu.com/p/f86bc70b045b">https://www.jianshu.com/p/f86bc70b045b</a></li><li><a href="https://zhuanlan.zhihu.com/p/340105623">https://zhuanlan.zhihu.com/p/340105623</a></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Typora</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Typora</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
   
 </search>
