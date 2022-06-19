@@ -13,7 +13,7 @@
     
     <categories>
       
-      <category>Lvm</category>
+      <category>运维笔记</category>
       
     </categories>
     
@@ -38,7 +38,7 @@
     
     <categories>
       
-      <category>Typora</category>
+      <category>工具软件</category>
       
     </categories>
     
@@ -63,7 +63,7 @@
     
     <categories>
       
-      <category>Mysql</category>
+      <category>安装配置</category>
       
     </categories>
     
@@ -88,7 +88,7 @@
     
     <categories>
       
-      <category>Idea</category>
+      <category>工具软件</category>
       
     </categories>
     
@@ -113,7 +113,7 @@
     
     <categories>
       
-      <category>Golang</category>
+      <category>安装配置</category>
       
     </categories>
     
@@ -121,6 +121,31 @@
     <tags>
       
       <tag>Golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>windows环境下安装rust</title>
+    <link href="/2022/06/09/2022/06/win-rust-install/"/>
+    <url>/2022/06/09/2022/06/win-rust-install/</url>
+    
+    <content type="html"><![CDATA[<h2 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h2><p><a href="http://rust-lang.org/">http://rust-lang.org</a></p><h2 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h2><p><a href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p><h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p>以管理员权限运行rustup-init.exe，选择1默认安装</p><p><img src="https://b3logfile.com/file/2021/10/image-df9d9cce.png" alt="image.png"></p><p>安装完成，入下图，提示要重新打开shell去重载环境变量：</p><p><img src="https://b3logfile.com/file/2021/10/image-eb1b33dd.png" alt="image.png"></p><p>测试安装环境：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 查看cargo版本号</span></span><br>cargo  --version<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看rustc版本号</span><br>rustc --version<br></code></pre></td></tr></table></figure><p><img src="https://b3logfile.com/file/2021/10/image-9b4de423.png" alt="image.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>安装配置</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Rust</tag>
       
     </tags>
     
