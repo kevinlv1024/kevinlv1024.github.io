@@ -31,6 +31,31 @@
   
   
   <entry>
+    <title>ubuntu多个磁盘挂载到同一个目录</title>
+    <link href="/2022/06/13/2022/06/linux-lvm-mount-disk/"/>
+    <url>/2022/06/13/2022/06/linux-lvm-mount-disk/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-列出磁盘信息"><a href="#1-列出磁盘信息" class="headerlink" title="1.列出磁盘信息"></a>1.列出磁盘信息</h2><ul><li>sudo lsblk 列出磁盘设备信息</li></ul><p><img src="/img/2022/06/13/image-20211018230137003.png"></p><ul><li>sudo fdisk -l</li></ul><p><img src="/img/2022/06/13/image-20211018230929657.png"></p><h2 id="2-创建物理卷"><a href="#2-创建物理卷" class="headerlink" title="2.创建物理卷"></a>2.创建物理卷</h2><ul><li>创建物理卷时，会将需要创建物理卷的磁盘格式化掉</li><li>创建物理卷的磁盘不能处于挂载状态（如处于挂载状态，需要先umount掉）</li></ul><p><code> sudo pvcreate /dev/nvme0n1 /dev/nvme1n1</code></p><p><img src="/img/2022/06/13/image-20211018231101707.png"></p><h2 id="3-查看物理卷"><a href="#3-查看物理卷" class="headerlink" title="3.查看物理卷"></a>3.查看物理卷</h2><p><code>sudo pvdisplay</code></p><p><img src="/img/2022/06/13/image-20211018231453849.png"></p><h2 id="4-创建卷组"><a href="#4-创建卷组" class="headerlink" title="4.创建卷组"></a>4.创建卷组</h2><p>创建一个名为lvm_data的vg组(名字可以随便改)，并将&#x2F;dev&#x2F;nvme0n1和 &#x2F;dev&#x2F;nvme1n1物理卷添加到该卷组中</p><p><code> sudo vgcreate lvm_data /dev/nvme0n1  /dev/nvme1n1</code></p><p><img src="/img/2022/06/13/image-20211018231733806.png"></p><h2 id="5-创建逻辑卷"><a href="#5-创建逻辑卷" class="headerlink" title="5.创建逻辑卷"></a>5.创建逻辑卷</h2><ul><li><code>l</code> 指定逻辑卷的大小</li><li><code>n</code> 自定义逻辑卷组的名称</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">lvmdata 重命名的逻辑卷名字</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">lvm_data 物理卷组名字</span><br>sudo lvcreate -l 100%VG -n lvmdata lvm_data<br></code></pre></td></tr></table></figure><p><img src="/img/2022/06/13/image-20211018232338119.png"></p><h2 id="6-查看分区"><a href="#6-查看分区" class="headerlink" title="6.查看分区"></a>6.查看分区</h2><p><code>sudo fdisk -l</code></p><p>可以看到新的逻辑卷位置 &#x2F;dev&#x2F;mapper&#x2F;lvm_data-lvmdata</p><p><img src="/img/2022/06/13/image-20211018232539536.png"></p><h2 id="7-格式化分区"><a href="#7-格式化分区" class="headerlink" title="7.格式化分区"></a>7.格式化分区</h2><p><code>sudo mkfs.ext4 /dev/mapper/lvm_data-lvmdata</code></p><p><img src="/img/2022/06/13/image-20211018232808936.png"></p><h2 id="8-创建文件目录"><a href="#8-创建文件目录" class="headerlink" title="8.创建文件目录"></a>8.创建文件目录</h2><p><code>sudo mkdir /tankdata</code></p><h2 id="9-挂载到指定的目录"><a href="#9-挂载到指定的目录" class="headerlink" title="9.挂载到指定的目录"></a>9.挂载到指定的目录</h2><p>将逻辑分区挂载到需要保存文件的目录即可</p><p><code>sudo mount /dev/mapper/lvm_data-lvmdata /tankdata</code></p><h2 id="10-检查确认"><a href="#10-检查确认" class="headerlink" title="10.检查确认"></a>10.检查确认</h2><p><code>sudo df -h</code></p><p><img src="/img/2022/06/13/image-20211018233358300.png"></p><h2 id="11-开机自动挂载"><a href="#11-开机自动挂载" class="headerlink" title="11.开机自动挂载"></a>11.开机自动挂载</h2><p>在<code>/etc/fstab</code>中添加挂载信息，实现开机自动挂载</p><p><code>/dev/mapper/lvm_data-lvmdata  /tankdata    ext4 defaults 0 0</code></p><p>参考链接：</p><ol><li><a href="https://alianga.com/articles/linux-dir-expand">https://alianga.com/articles/linux-dir-expand</a></li><li><a href="https://blog.csdn.net/syyyyyyyyyyyyyyh/article/details/120037746">https://blog.csdn.net/syyyyyyyyyyyyyyh/article/details/120037746</a></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>Lvm</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Lvm</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Typora使用PicGo配置七牛云图床</title>
     <link href="/2022/06/12/2022/06/Typora-PicGo/"/>
     <url>/2022/06/12/2022/06/Typora-PicGo/</url>
