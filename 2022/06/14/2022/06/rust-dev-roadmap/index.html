@@ -1,0 +1,1119 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar2.png">
+  <link rel="icon" href="/img/avatar2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kevin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="路线图初级 基础语法常量、变量、绑定 let关键字  mut修饰符  const修饰符   语句与表达式 语句和表达式的区别  行末的分号   循环语句 loop  while  for  break  loop label   条件判断语句 if  else  else if   基本运算符 算术运算符  逻辑运算符  位移运算符   函数与闭包 fn关键字  函数参数的写法  函数的返回值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust开发者成长路线">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/14/2022/06/rust-dev-roadmap/index.html">
+<meta property="og:site_name" content="Kevin&#39;s Blog">
+<meta property="og:description" content="路线图初级 基础语法常量、变量、绑定 let关键字  mut修饰符  const修饰符   语句与表达式 语句和表达式的区别  行末的分号   循环语句 loop  while  for  break  loop label   条件判断语句 if  else  else if   基本运算符 算术运算符  逻辑运算符  位移运算符   函数与闭包 fn关键字  函数参数的写法  函数的返回值">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/14/index_banner_rust_roadmap.jpg">
+<meta property="article:published_time" content="2022-06-14T12:29:52.000Z">
+<meta property="article:modified_time" content="2022-06-19T12:47:09.872Z">
+<meta property="article:author" content="Kevin">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/14/index_banner_rust_roadmap.jpg">
+  
+  
+  
+  <title>Rust开发者成长路线 - Kevin&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kevinlv1024.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 50vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Kevin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Rust开发者成长路线"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-14 20:29" pubdate>
+          2022年6月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Rust开发者成长路线</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="路线图"><a href="#路线图" class="headerlink" title="路线图"></a>路线图</h2><h3 id="初级"><a href="#初级" class="headerlink" title="初级"></a>初级</h3><p><img src="/img/2022/06/14/rust-dev-roadmap-a.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><h5 id="常量、变量、绑定"><a href="#常量、变量、绑定" class="headerlink" title="常量、变量、绑定"></a>常量、变量、绑定</h5><ul>
+<li><p>let关键字</p>
+</li>
+<li><p>mut修饰符</p>
+</li>
+<li><p>const修饰符</p>
+</li>
+</ul>
+<h5 id="语句与表达式"><a href="#语句与表达式" class="headerlink" title="语句与表达式"></a>语句与表达式</h5><ul>
+<li><p>语句和表达式的区别</p>
+</li>
+<li><p>行末的分号</p>
+</li>
+</ul>
+<h5 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h5><ul>
+<li><p>loop</p>
+</li>
+<li><p>while</p>
+</li>
+<li><p>for</p>
+</li>
+<li><p>break</p>
+</li>
+<li><p>loop label</p>
+</li>
+</ul>
+<h5 id="条件判断语句"><a href="#条件判断语句" class="headerlink" title="条件判断语句"></a>条件判断语句</h5><ul>
+<li><p>if</p>
+</li>
+<li><p>else</p>
+</li>
+<li><p>else if</p>
+</li>
+</ul>
+<h5 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h5><ul>
+<li><p>算术运算符</p>
+</li>
+<li><p>逻辑运算符</p>
+</li>
+<li><p>位移运算符</p>
+</li>
+</ul>
+<h5 id="函数与闭包"><a href="#函数与闭包" class="headerlink" title="函数与闭包"></a>函数与闭包</h5><ul>
+<li><p>fn关键字</p>
+</li>
+<li><p>函数参数的写法</p>
+</li>
+<li><p>函数的返回值</p>
+</li>
+<li><p>闭包</p>
+</li>
+<li><p>闭包的参数和返回值</p>
+</li>
+</ul>
+<h5 id="match表达式"><a href="#match表达式" class="headerlink" title="match表达式"></a>match表达式</h5><ul>
+<li><p>match的语法和分支</p>
+</li>
+<li><p>默认分支</p>
+</li>
+</ul>
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><h5 id="基础数据类型"><a href="#基础数据类型" class="headerlink" title="基础数据类型"></a>基础数据类型</h5><ul>
+<li><p>数字类型</p>
+</li>
+<li><p>有符号类型</p>
+</li>
+</ul>
+<p>i8&#x2F;i16&#x2F;i32&#x2F;i64&#x2F;i128&#x2F;isize</p>
+<ul>
+<li>无符号类型</li>
+</ul>
+<p>u8&#x2F;u16&#x2F;u32&#x2F;u64&#x2F;u128&#x2F;usize</p>
+<ul>
+<li>浮点类型</li>
+</ul>
+<p>f32&#x2F;f64</p>
+<ul>
+<li>布尔类型</li>
+</ul>
+<p>bool</p>
+<ul>
+<li>字符类型</li>
+</ul>
+<p>char</p>
+<ul>
+<li>数组类型</li>
+</ul>
+<p>[]</p>
+<ul>
+<li>range类型</li>
+</ul>
+<p>range()</p>
+<ul>
+<li>slice类型</li>
+</ul>
+<p>内存切片</p>
+<ul>
+<li>str类型</li>
+</ul>
+<p>静态字符串</p>
+<ul>
+<li>String类型</li>
+</ul>
+<p>动态字符串</p>
+<h5 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h5><ul>
+<li><p>元组</p>
+</li>
+<li><p>结构体struct</p>
+</li>
+<li><p>枚举enum</p>
+</li>
+<li><p>union</p>
+</li>
+</ul>
+<h5 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h5><ul>
+<li><p>Vector</p>
+</li>
+<li><p>HashMap</p>
+</li>
+<li><p>HashSet</p>
+</li>
+</ul>
+<h4 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h4><ul>
+<li><p>match基本形式</p>
+</li>
+<li><p>match+enum实现分支处理</p>
+</li>
+<li><p>if let</p>
+</li>
+<li><p>while let</p>
+</li>
+<li><p>函数参数中的模式匹配</p>
+</li>
+</ul>
+<h4 id="module组织"><a href="#module组织" class="headerlink" title="module组织"></a>module组织</h4><ul>
+<li><p>多模块文件的组织</p>
+</li>
+<li><p>多模块文件的引入和路径寻址</p>
+</li>
+<li><p>pub</p>
+</li>
+</ul>
+<p>模块供外部访问的部分的导出修饰符</p>
+<h4 id="打印、调试与输入输出"><a href="#打印、调试与输入输出" class="headerlink" title="打印、调试与输入输出"></a>打印、调试与输入输出</h4><ul>
+<li><p>println!</p>
+</li>
+<li><p>debug!</p>
+</li>
+<li><p>std::io</p>
+</li>
+<li><p>io::stdin()</p>
+</li>
+<li><p>io::stdout()</p>
+</li>
+</ul>
+<h4 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h4><ul>
+<li><p>std::fs</p>
+</li>
+<li><p>文件的增删改查</p>
+</li>
+<li><p>目录的操作</p>
+</li>
+</ul>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><ul>
+<li><p>行注释</p>
+</li>
+<li><p>块注释</p>
+</li>
+<li><p>文档注释</p>
+</li>
+<li><p>文档注释中的markdown支持</p>
+</li>
+<li><p>文档注释中的代码测试支持</p>
+</li>
+</ul>
+<h4 id="cargo包管理系统"><a href="#cargo包管理系统" class="headerlink" title="cargo包管理系统"></a>cargo包管理系统</h4><ul>
+<li><p>cargo的基本使用</p>
+</li>
+<li><p>外部carte的引入和使用</p>
+</li>
+</ul>
+<h3 id="中级"><a href="#中级" class="headerlink" title="中级"></a>中级</h3><p><img src="/img/2022/06/14/rust-dev-roadmap-b.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="cargo工程配置"><a href="#cargo工程配置" class="headerlink" title="cargo工程配置"></a>cargo工程配置</h4><ul>
+<li><p>cargo各种参数的配置和作用</p>
+</li>
+<li><p>开发中大型项目的特性支持</p>
+</li>
+</ul>
+<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><ul>
+<li><p>Rust中错误处理的基本方法</p>
+</li>
+<li><p>Result与Option</p>
+</li>
+<li><p>match表达式用于错误处理</p>
+</li>
+<li><p>用于错误处理的?号</p>
+</li>
+<li><p>错误抛出的路径和处理时机</p>
+</li>
+</ul>
+<h4 id="trait特征"><a href="#trait特征" class="headerlink" title="trait特征"></a>trait特征</h4><ul>
+<li><p>trait的基本功能</p>
+</li>
+<li><p>将trait实现在类型上</p>
+</li>
+<li><p>孤儿规则</p>
+</li>
+</ul>
+<h4 id="运算符的重载"><a href="#运算符的重载" class="headerlink" title="运算符的重载"></a>运算符的重载</h4><ul>
+<li>支持重载的运算符及对应trait</li>
+</ul>
+<h4 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h4><ul>
+<li><p>泛型的基本概念</p>
+</li>
+<li><p>Rust中泛型的形式</p>
+</li>
+<li><p>多泛型</p>
+</li>
+<li><p>PhantomData</p>
+</li>
+<li><p>静态分发与动态分发</p>
+</li>
+</ul>
+<h4 id="引用与指针"><a href="#引用与指针" class="headerlink" title="引用与指针"></a>引用与指针</h4><ul>
+<li><p>&amp;</p>
+</li>
+<li><p>Box</p>
+</li>
+</ul>
+<h4 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h4><ul>
+<li><p>Cow</p>
+</li>
+<li><p>Rc、Arc</p>
+</li>
+<li><p>Weak</p>
+</li>
+<li><p>Cell、RefCell</p>
+</li>
+</ul>
+<h4 id="更多类型"><a href="#更多类型" class="headerlink" title="更多类型"></a>更多类型</h4><ul>
+<li><p>never类型</p>
+</li>
+<li><p>BtreeMap</p>
+</li>
+<li><p>BtreeSet</p>
+</li>
+<li><p>VecDeque</p>
+</li>
+<li><p>LinkedList</p>
+</li>
+<li><p>BinaryHeap</p>
+</li>
+</ul>
+<h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><ul>
+<li><p>as</p>
+</li>
+<li><p>Deref</p>
+</li>
+<li><p>From和Into</p>
+</li>
+</ul>
+<h4 id="所有权系统"><a href="#所有权系统" class="headerlink" title="所有权系统"></a>所有权系统</h4><ul>
+<li><p>所有权的概念</p>
+</li>
+<li><p>所有权的创建和转移</p>
+</li>
+<li><p>所有权在Rust中的重要意义</p>
+</li>
+</ul>
+<h4 id="借用检查器"><a href="#借用检查器" class="headerlink" title="借用检查器"></a>借用检查器</h4><ul>
+<li><p>借用检查器的概念</p>
+</li>
+<li><p>借用检查器的运行原理</p>
+</li>
+<li><p>借用的操作与数据访问</p>
+</li>
+<li><p>不可变借用和可变借用</p>
+</li>
+<li><p>借用的传递</p>
+</li>
+</ul>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ul>
+<li><p>生命周期的概念</p>
+</li>
+<li><p>Rust中生命周期的表示</p>
+</li>
+<li><p>生命周期的分析方法</p>
+</li>
+</ul>
+<h4 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h4><ul>
+<li><p>迭代器的基本概念</p>
+</li>
+<li><p>迭代器的优势</p>
+</li>
+<li><p>Rust标准库中常见的迭代器类型和使用方法</p>
+</li>
+<li><p>实现自己的迭代器</p>
+</li>
+</ul>
+<h4 id="标准库中常用的trait"><a href="#标准库中常用的trait" class="headerlink" title="标准库中常用的trait"></a>标准库中常用的trait</h4><ul>
+<li><p>Display</p>
+</li>
+<li><p>Clone</p>
+</li>
+<li><p>Debug</p>
+</li>
+<li><p>Eq</p>
+</li>
+<li><p>PartialEq</p>
+</li>
+</ul>
+<h4 id="多线程开发"><a href="#多线程开发" class="headerlink" title="多线程开发"></a>多线程开发</h4><ul>
+<li><p>Rust多线程的语法</p>
+</li>
+<li><p>使用channel在多线程中交换数据</p>
+</li>
+<li><p>多线程中共享数据问题</p>
+</li>
+</ul>
+<h4 id="async异步开发"><a href="#async异步开发" class="headerlink" title="async异步开发"></a>async异步开发</h4><ul>
+<li><p>同步和异步的概念</p>
+</li>
+<li><p>Future的基本概念</p>
+</li>
+<li><p>async和await关键字的使用</p>
+</li>
+<li><p>tokio runtime的基本使用</p>
+</li>
+<li><p>task任务操作</p>
+</li>
+</ul>
+<h4 id="Rust设计模式"><a href="#Rust设计模式" class="headerlink" title="Rust设计模式"></a>Rust设计模式</h4><ul>
+<li><p>构建器模式</p>
+</li>
+<li><p>newtype模式</p>
+</li>
+</ul>
+<h4 id="宏的使用"><a href="#宏的使用" class="headerlink" title="宏的使用"></a>宏的使用</h4><h5 id="声明宏"><a href="#声明宏" class="headerlink" title="声明宏"></a>声明宏</h5><h5 id="过程宏"><a href="#过程宏" class="headerlink" title="过程宏"></a>过程宏</h5><ul>
+<li><p>属性宏</p>
+</li>
+<li><p>类函数宏</p>
+</li>
+<li><p>派生宏</p>
+</li>
+</ul>
+<h4 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h4><h5 id="tcp编程"><a href="#tcp编程" class="headerlink" title="tcp编程"></a>tcp编程</h5><ul>
+<li>tokio::net的使用</li>
+</ul>
+<h5 id="udp编程"><a href="#udp编程" class="headerlink" title="udp编程"></a>udp编程</h5><ul>
+<li>tokio::net的使用</li>
+</ul>
+<h5 id="http编程"><a href="#http编程" class="headerlink" title="http编程"></a>http编程</h5><ul>
+<li>hyper库的使用</li>
+</ul>
+<h3 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h3><p><img src="/img/2022/06/14/rust-dev-roadmap-c.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="原始指针"><a href="#原始指针" class="headerlink" title="原始指针"></a>原始指针</h4><ul>
+<li><p>原始指针</p>
+</li>
+<li><p>原始指针与其它引用和指针类型的转换</p>
+</li>
+<li><p>出现</p>
+</li>
+</ul>
+<h4 id="unsafe-rust"><a href="#unsafe-rust" class="headerlink" title="unsafe rust"></a>unsafe rust</h4><ul>
+<li><p>s f</p>
+</li>
+<li><p>safe rust与unsafe rust</p>
+</li>
+<li><p>unsafe rust与c的安全性区别</p>
+</li>
+<li><p>unsafe rust的意义</p>
+</li>
+</ul>
+<h4 id="高级trait"><a href="#高级trait" class="headerlink" title="高级trait"></a>高级trait</h4><ul>
+<li><p>关联类型</p>
+</li>
+<li><p>关联常量</p>
+</li>
+<li><p>r i</p>
+</li>
+</ul>
+<h4 id="高级lifetime"><a href="#高级lifetime" class="headerlink" title="高级lifetime"></a>高级lifetime</h4><ul>
+<li><p>多生命周期</p>
+</li>
+<li><p>生命周期的依赖</p>
+</li>
+</ul>
+<h4 id="函数式编程风格"><a href="#函数式编程风格" class="headerlink" title="函数式编程风格"></a>函数式编程风格</h4><ul>
+<li><p>标准库中的一套方法</p>
+</li>
+<li><p>链式写法</p>
+</li>
+<li><p>编程</p>
+</li>
+</ul>
+<h4 id="Rust设计模式扩展"><a href="#Rust设计模式扩展" class="headerlink" title="Rust设计模式扩展"></a>Rust设计模式扩展</h4><ul>
+<li><p>工厂模式</p>
+</li>
+<li><p>OOP模式</p>
+</li>
+<li><p>状态机模式</p>
+</li>
+</ul>
+<h4 id="Rust-FFI开发"><a href="#Rust-FFI开发" class="headerlink" title="Rust FFI开发"></a>Rust FFI开发</h4><ul>
+<li><p>从c库中导入函数</p>
+</li>
+<li><p>u t</p>
+</li>
+<li><p>Rust与C++交互开发</p>
+</li>
+<li><p>Rust与动态语言交互开发</p>
+</li>
+</ul>
+<h4 id="安全并发"><a href="#安全并发" class="headerlink" title="安全并发"></a>安全并发</h4><ul>
+<li><p>send与sync</p>
+</li>
+<li><p>锁的使用分析</p>
+</li>
+<li><p>无锁数据结构</p>
+</li>
+<li><p>高性能并发编程</p>
+</li>
+</ul>
+<p> rayon、crossbeam库等</p>
+<h4 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h4><ul>
+<li><p>Rust中数据结构的内存布局</p>
+</li>
+<li><p>Rust内存布局与c的区别</p>
+</li>
+</ul>
+<h4 id="宏开发"><a href="#宏开发" class="headerlink" title="宏开发"></a>宏开发</h4><ul>
+<li><p>自己动手写declare macro</p>
+</li>
+<li><p>自己动手写procedure macro</p>
+</li>
+</ul>
+<h4 id="元编程"><a href="#元编程" class="headerlink" title="元编程"></a>元编程</h4><ul>
+<li><p>build.rs构建期编程</p>
+</li>
+<li><p>使用过程宏实现编译器代码操作</p>
+</li>
+<li><p>类型反射相关</p>
+</li>
+</ul>
+<p>Any、downcast</p>
+<h4 id="解析器开发"><a href="#解析器开发" class="headerlink" title="解析器开发"></a>解析器开发</h4><ul>
+<li><p>解析器的重要意义</p>
+</li>
+<li><p>Rust为何适合用来写解析器</p>
+</li>
+<li><p>nom解析器快速开发</p>
+</li>
+</ul>
+<p>nom</p>
+<ul>
+<li>序列化库</li>
+</ul>
+<p>serde</p>
+<h4 id="异步编程poll模式开发"><a href="#异步编程poll模式开发" class="headerlink" title="异步编程poll模式开发"></a>异步编程poll模式开发</h4><ul>
+<li>深刻理解Future</li>
+</ul>
+<p>Reactor、Waker、Executor</p>
+<ul>
+<li>学习Future的Poll状态机开发模式</li>
+</ul>
+<p>Context</p>
+<ul>
+<li><p>Pin</p>
+</li>
+<li><p>Poll开发模式需要注意的一些点</p>
+</li>
+</ul>
+<h4 id="Rust与Wasm开发"><a href="#Rust与Wasm开发" class="headerlink" title="Rust与Wasm开发"></a>Rust与Wasm开发</h4><ul>
+<li><p>WebAssembly介绍</p>
+</li>
+<li><p>ut s</p>
+</li>
+<li><p>其他语言开发wasm对比</p>
+</li>
+<li><p>Wasm-bindgen</p>
+</li>
+</ul>
+<h2 id="推荐资料"><a href="#推荐资料" class="headerlink" title="推荐资料"></a>推荐资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.rust-lang.org/">Rust官方网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/rust/rust-tutorial.html">Rust菜鸟教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://kaisery.github.io/trpl-zh-cn/title-page.html">Rust程序设计语言（精读）</a></li>
+<li><a target="_blank" rel="noopener" href="https://course.rs/about-book.html">Rust语言圣经(Rust Course)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zjp-cn.github.io/tlborm/">Rust宏小册（小宏书）</a> </li>
+<li><a target="_blank" rel="noopener" href="https://www.rustwiki.org.cn/">Rust文档网(www.rustwiki)</a></li>
+<li><a target="_blank" rel="noopener" href="https://cheats.rs/">Rust Language Cheat Sheet</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/title-page.html">The Rust Programming Language</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/rust-by-example/index.html">Rust by Example</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/cargo/">The Cargo Book（英文）</a></li>
+<li><a target="_blank" rel="noopener" href="https://rustwiki.org/zh-CN/cargo/index.html">Cargo Book（中文）（翻译未完成）</a></li>
+<li><a target="_blank" rel="noopener" href="https://llever.com/cargo-book-zh/">Cargo Book（中文）（翻译未完成）</a></li>
+<li><a target="_blank" rel="noopener" href="https://rust-lang.github.io/async-book/">Rust异步编程</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/introduction.html">The Rust Reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/nomicon/intro.html">The Dark Arts  of  Unsafe Rust 《Rust死灵书》(英文版)</a></li>
+<li><a target="_blank" rel="noopener" href="https://nomicon.purewhite.io/intro.html">The Dark Arts  of  Unsafe Rust 《Rust死灵书》(中文版)</a></li>
+<li><a target="_blank" rel="noopener" href="https://doc.rust-lang.org/std/#the-rust-standard-library">the-rust-standard-library</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1469317336243478528">Tokio使用指南</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sunface/fancy-rust">fancy-rust</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/daheige/rust-bible">大黑哥rust笔记</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" class="category-chain-item">后端开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Rust/">#Rust</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Rust开发者成长路线</div>
+      <div>https://kevinlv1024.github.io/2022/06/14/2022/06/rust-dev-roadmap/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kevin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月14日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/14/2022/06/go-dev-roadmap/" title="Go开发者成长路线">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Go开发者成长路线</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/13/2022/06/linux-lvm-mount-disk/" title="ubuntu多个磁盘挂载到同一个目录">
+                        <span class="hidden-mobile">ubuntu多个磁盘挂载到同一个目录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
