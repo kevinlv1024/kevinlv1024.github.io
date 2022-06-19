@@ -78,5 +78,30 @@
   
   
   
+  <entry>
+    <title>IntelliJ IDEA 必备插件之阿里巴巴代码规范插件</title>
+    <link href="/2022/06/10/2022/06/idea-alibaba-plugin/"/>
+    <url>/2022/06/10/2022/06/idea-alibaba-plugin/</url>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一个码农程序猿，每个人都想写出标准、规范且高质量的代码。但是规范的标准是什么呢？什么样的代码才是高质量的代码？估计每个人心中的标准也不是完全一致的。那么我们的评判标准如何做到统一，如何将写出来的代码最大程度的接近公认的规范呢?这时阿里巴巴代码规范插件应运而生。</p><p>阿里巴巴 Java 代码规范插件是阿里巴巴在 2017 年 10 月 14 日在杭州云栖大会首发，插件实现了《阿里巴巴 Java 开发手册》中的 53 条规则，提供了实时检测和部分规则的一键修复功能，后续应该会更加完善。</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>插件可以使用在线安装和离线安装两种方式，根据个人偏好和需要任选一种安装即可：</p><h3 id="1-在线安装"><a href="#1-在线安装" class="headerlink" title="1.在线安装"></a>1.在线安装</h3><ul><li>打开 IDEA，并依次打开 File–&gt;Settings–&gt;Plugins，如下图：</li></ul><p><img src="/img/2022/06/10/image-da24cfba.png"></p><ul><li>在搜索框输入 alibaba 即可看到 Alibaba Java Code Guidelines 插件，点击 Install 进行安装</li></ul><p><img src="/img/2022/06/10/image-181c2529.png"></p><p><img src="/img/2022/06/10/image-3c8c36bc.png"></p><ul><li>重启 IDE 生效</li></ul><p><img src="/img/2022/06/10/image-a3eda68e.png"></p><h3 id="2-离线安装"><a href="#2-离线安装" class="headerlink" title="2.离线安装"></a>2.离线安装</h3><ul><li>去官网 plugins 下载对应的插件离线安装包（需要先接受下载协议才能下载哦）</li></ul><p>下载地址：<a href="https://link.ld246.com/forward?goto=https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines/versions">https://plugins.jetbrains.com/plugin/10046-alibaba-java-coding-guidelines/versions</a></p><p><img src="/img/2022/06/10/image-7fdce4d8.png"></p><ul><li>依然是 File–&gt;Settings–&gt;Plugins,点小齿轮选择 Install Plugin from Disk，找到我们上一步下载的插件安装，并重启生效</li></ul><p><img src="/img/2022/06/10/image-055312f9.png"></p><h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>插件的使用的有两种场景：</p><h3 id="全量扫描"><a href="#全量扫描" class="headerlink" title="全量扫描"></a>全量扫描</h3><p>如果我们在安装插件之前，已经写好了项目或者某个类，是不是就没办法检查代码是否符合规范了呢？别慌，只要我们选中想要审查的项目或者类，进行编码规范扫描，一样能达到我们想要的效果。</p><p><img src="/img/2022/06/10/image-725760d1.png"></p><p>扫描结果如下：</p><p><img src="/img/2022/06/10/image-2b80f0fd.png"></p><p>扫描结果说明：</p><p><strong>Blocker</strong>：阻断，最严重的问题，必须改！红色提醒</p><p><strong>Critical</strong>：推荐，不是很严重，但也不规范，要改！橙黄提醒</p><p><strong>Major</strong>：参考，一般，可改可不改，建议还是改！浅黄提醒</p><p>扫出来之后每个都有详细的结果说明，怎么改，为啥改，以及代码具体位置</p><p>使用 Ctrl+F1 可以查看详细的中文提示信息，如下图：</p><p><img src="/img/2022/06/10/image-c6ecc2a6.png"></p><h3 id="实时检测"><a href="#实时检测" class="headerlink" title="实时检测"></a>实时检测</h3><p>除了能够进行全量不规范代码扫描之外，插件还能实现代码开发过程中的实时不规范检测，如下图我们创建一个不满足驼峰命名规则的类：</p><p><img src="/img/2022/06/10/image-c6ca26b2.png"></p><h2 id="约束配置"><a href="#约束配置" class="headerlink" title="约束配置"></a>约束配置</h2><p>我们也可以对检查约束进行选择哦，File-&gt;Settings-&gt;Editor-&gt;inspections,可以根据自己要求进行选择约束。让我们来查看下阿里巴巴 java 代码规范插件支持多少代码检查：</p><p><img src="/img/2022/06/10/image-cc9a54bd.png"></p><h2 id="中文乱码解决"><a href="#中文乱码解决" class="headerlink" title="中文乱码解决"></a>中文乱码解决</h2><p>最后如果发现菜单栏的阿里插件出现中文乱码,是因为菜单栏的字体不持支中文，可以 Appearance&amp;Behavior -&gt; Appearance -&gt; UI Options -&gt; Name 里面设置成微软雅黑（microsoft yahei light）或者自己喜欢的其他字体哦</p><p><img src="/img/2022/06/10/image-8a68086f.png"></p><p>学完了插件的安装及使用，赶紧给你的 IDEA 安装上吧，相信你的代码质量会更上一个台阶!😄</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Idea</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Idea</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
   
 </search>
