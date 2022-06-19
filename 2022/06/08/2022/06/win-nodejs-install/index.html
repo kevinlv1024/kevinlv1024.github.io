@@ -16,24 +16,24 @@
   <meta name="author" content="Kevin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="官方网站http:&#x2F;&#x2F;rust-lang.org 安装包下载https:&#x2F;&#x2F;www.rust-lang.org&#x2F;tools&#x2F;install 安装步骤以管理员权限运行rustup-init.exe，选择1默认安装  安装完成，入下图，提示要重新打开shell去重载环境变量：  测试安装环境： 1234## 查看cargo版本号cargo  --version# 查看rustc版本号rustc --v">
+    <meta name="description" content="1.下载安装包Node.js官方网站下载：https:&#x2F;&#x2F;nodejs.org&#x2F;en&#x2F;download&#x2F; 修改默认安装路径，win系统安装完后目录如下：  2.验证安装结果安装过程中已自动配置了环境变量和安装好了npm包，此时可以执行 node -v 和 npm -v 分别查看node和npm的版本号。如下图表示已安装成功：  3.配置npm全局模块和缓存Cache安装路径在执行全局模块安装时，默">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows环境下安装rust">
-<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/09/2022/06/win-rust-install/index.html">
+<meta property="og:title" content="windows环境下Nodejs安装配置">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/08/2022/06/win-nodejs-install/index.html">
 <meta property="og:site_name" content="Kevin&#39;s Blog">
-<meta property="og:description" content="官方网站http:&#x2F;&#x2F;rust-lang.org 安装包下载https:&#x2F;&#x2F;www.rust-lang.org&#x2F;tools&#x2F;install 安装步骤以管理员权限运行rustup-init.exe，选择1默认安装  安装完成，入下图，提示要重新打开shell去重载环境变量：  测试安装环境： 1234## 查看cargo版本号cargo  --version# 查看rustc版本号rustc --v">
+<meta property="og:description" content="1.下载安装包Node.js官方网站下载：https:&#x2F;&#x2F;nodejs.org&#x2F;en&#x2F;download&#x2F; 修改默认安装路径，win系统安装完后目录如下：  2.验证安装结果安装过程中已自动配置了环境变量和安装好了npm包，此时可以执行 node -v 和 npm -v 分别查看node和npm的版本号。如下图表示已安装成功：  3.配置npm全局模块和缓存Cache安装路径在执行全局模块安装时，默">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/09/index_banner_rust_install.png">
-<meta property="article:published_time" content="2022-06-09T14:59:59.000Z">
-<meta property="article:modified_time" content="2022-06-19T10:31:29.889Z">
+<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/08/index-banner-win-nodejs.png">
+<meta property="article:published_time" content="2022-06-08T14:59:59.000Z">
+<meta property="article:modified_time" content="2022-06-19T10:53:13.852Z">
 <meta property="article:author" content="Kevin">
-<meta property="article:tag" content="Rust">
+<meta property="article:tag" content="NodeJs">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/09/index_banner_rust_install.png">
+<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/08/index-banner-win-nodejs.png">
   
   
   
-  <title>windows环境下安装rust - Kevin&#39;s Blog</title>
+  <title>windows环境下Nodejs安装配置 - Kevin&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="windows环境下安装rust"></span>
+            <span id="subtitle" data-typed-text="windows环境下Nodejs安装配置"></span>
           
         </div>
 
@@ -209,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-09 22:59" pubdate>
-          2022年6月9日 晚上
+        <time datetime="2022-06-08 22:59" pubdate>
+          2022年6月8日 晚上
         </time>
       </span>
     
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          194 字
+          693 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          2 分钟
+          6 分钟
         
       </span>
     
@@ -270,21 +270,34 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">windows环境下安装rust</h1>
+            <h1 style="display: none">windows环境下Nodejs安装配置</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h2><p><a target="_blank" rel="noopener" href="http://rust-lang.org/">http://rust-lang.org</a></p>
-<h2 id="安装包下载"><a href="#安装包下载" class="headerlink" title="安装包下载"></a>安装包下载</h2><p><a target="_blank" rel="noopener" href="https://www.rust-lang.org/tools/install">https://www.rust-lang.org/tools/install</a></p>
-<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><p>以管理员权限运行rustup-init.exe，选择1默认安装</p>
-<p><img src="https://b3logfile.com/file/2021/10/image-df9d9cce.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>安装完成，入下图，提示要重新打开shell去重载环境变量：</p>
-<p><img src="https://b3logfile.com/file/2021/10/image-eb1b33dd.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
-<p>测试安装环境：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 查看cargo版本号</span></span><br>cargo  --version<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看rustc版本号</span><br>rustc --version<br></code></pre></td></tr></table></figure>
+                <h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1.下载安装包"></a>1.下载安装包</h2><p>Node.js官方网站下载：<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p>
+<p>修改默认安装路径，win系统安装完后目录如下：</p>
+<p><img src="/img/2022/06/08/image-20211017214514607.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-验证安装结果"><a href="#2-验证安装结果" class="headerlink" title="2.验证安装结果"></a>2.验证安装结果</h2><p>安装过程中已自动配置了环境变量和安装好了npm包，此时可以执行 node -v 和 npm -v 分别查看node和npm的版本号。如下图表示已安装成功：</p>
+<p><img src="/img/2022/06/08/image-20211017214923470.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="3-配置npm全局模块和缓存Cache安装路径"><a href="#3-配置npm全局模块和缓存Cache安装路径" class="headerlink" title="3.配置npm全局模块和缓存Cache安装路径"></a>3.配置npm全局模块和缓存Cache安装路径</h2><p>在执行全局模块安装时，默认会将模块安装在C:\Users\用户名\AppData\Roaming路径下的npm和npm_cache中，不方便管理且占用C盘空间。所以这里配置自定义的全局模块安装目录，在node.js安装目录下新建两个文件夹 node_global和node_cache，然后在cmd命令下执行如下两个命令：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs swift">npm config <span class="hljs-keyword">set</span> <span class="hljs-keyword">prefix</span> <span class="hljs-string">&quot;D:\software<span class="hljs-subst">\n</span>odejs<span class="hljs-subst">\n</span>ode_global&quot;</span><br>npm config <span class="hljs-keyword">set</span> cache  <span class="hljs-string">&quot;D:\software<span class="hljs-subst">\n</span>odejs<span class="hljs-subst">\n</span>ode_cache&quot;</span><br>npm list <span class="hljs-operator">-</span>global <span class="hljs-comment">/*验证是否设置成功*/</span><br>npm config <span class="hljs-keyword">set</span> registry<span class="hljs-operator">=</span>http:<span class="hljs-comment">//registry.npm.taobao.org /*配置淘宝镜像站用于提速*/</span><br>npm config list <span class="hljs-comment">/*验证上述配置*/</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://b3logfile.com/file/2021/10/image-9b4de423.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>执行完后需要再添加以下两个环境变量并验证：</p>
+<ol>
+<li><strong>添加NODE_PATH环境变量，如下：</strong></li>
+</ol>
+<p><img src="/img/2022/06/08/image-20211017222733903.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li><strong>PATH添加D:\software\nodejs\node_global</strong></li>
+</ol>
+<p><img src="/img/2022/06/08/image-20211017223007751.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="3">
+<li><strong>测试truffle安装</strong></li>
+</ol>
+<p><img src="/img/2022/06/08/image-20211017223500544.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意：如果出现报错提示权限问题，请切换到管理员模式下执行命令。</p>
+<p><img src="/img/2022/06/08/image-20211017223839559.png" srcset="/img/loading.gif" lazyload></p>
 
                 
               </div>
@@ -318,7 +331,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Rust/">#Rust</a>
+        <a href="/tags/NodeJs/">#NodeJs</a>
       
     </div>
   
@@ -330,8 +343,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>windows环境下安装rust</div>
-      <div>https://kevinlv1024.github.io/2022/06/09/2022/06/win-rust-install/</div>
+      <div>windows环境下Nodejs安装配置</div>
+      <div>https://kevinlv1024.github.io/2022/06/08/2022/06/win-nodejs-install/</div>
     </div>
     <div class="license-meta">
       
@@ -343,7 +356,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年6月9日</div>
+          <div>2022年6月8日</div>
         </div>
       
       
@@ -373,21 +386,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/09/2022/06/win-golang-envconfig/" title="Win10系统Golang开发环境搭建">
+                      <a href="/2022/06/09/2022/06/win-rust-install/" title="windows环境下安装rust">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Win10系统Golang开发环境搭建</span>
+                        <span class="hidden-mobile">windows环境下安装rust</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2022/06/08/2022/06/win-nodejs-install/" title="windows环境下Nodejs安装配置">
-                        <span class="hidden-mobile">windows环境下Nodejs安装配置</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>

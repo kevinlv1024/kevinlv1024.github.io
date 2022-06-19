@@ -153,5 +153,30 @@
   
   
   
+  <entry>
+    <title>windows环境下Nodejs安装配置</title>
+    <link href="/2022/06/08/2022/06/win-nodejs-install/"/>
+    <url>/2022/06/08/2022/06/win-nodejs-install/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-下载安装包"><a href="#1-下载安装包" class="headerlink" title="1.下载安装包"></a>1.下载安装包</h2><p>Node.js官方网站下载：<a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></p><p>修改默认安装路径，win系统安装完后目录如下：</p><p><img src="/img/2022/06/08/image-20211017214514607.png"></p><h2 id="2-验证安装结果"><a href="#2-验证安装结果" class="headerlink" title="2.验证安装结果"></a>2.验证安装结果</h2><p>安装过程中已自动配置了环境变量和安装好了npm包，此时可以执行 node -v 和 npm -v 分别查看node和npm的版本号。如下图表示已安装成功：</p><p><img src="/img/2022/06/08/image-20211017214923470.png"></p><h2 id="3-配置npm全局模块和缓存Cache安装路径"><a href="#3-配置npm全局模块和缓存Cache安装路径" class="headerlink" title="3.配置npm全局模块和缓存Cache安装路径"></a>3.配置npm全局模块和缓存Cache安装路径</h2><p>在执行全局模块安装时，默认会将模块安装在C:\Users\用户名\AppData\Roaming路径下的npm和npm_cache中，不方便管理且占用C盘空间。所以这里配置自定义的全局模块安装目录，在node.js安装目录下新建两个文件夹 node_global和node_cache，然后在cmd命令下执行如下两个命令：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs swift">npm config <span class="hljs-keyword">set</span> <span class="hljs-keyword">prefix</span> <span class="hljs-string">&quot;D:\software<span class="hljs-subst">\n</span>odejs<span class="hljs-subst">\n</span>ode_global&quot;</span><br>npm config <span class="hljs-keyword">set</span> cache  <span class="hljs-string">&quot;D:\software<span class="hljs-subst">\n</span>odejs<span class="hljs-subst">\n</span>ode_cache&quot;</span><br>npm list <span class="hljs-operator">-</span>global <span class="hljs-comment">/*验证是否设置成功*/</span><br>npm config <span class="hljs-keyword">set</span> registry<span class="hljs-operator">=</span>http:<span class="hljs-comment">//registry.npm.taobao.org /*配置淘宝镜像站用于提速*/</span><br>npm config list <span class="hljs-comment">/*验证上述配置*/</span><br></code></pre></td></tr></table></figure><p>执行完后需要再添加以下两个环境变量并验证：</p><ol><li><strong>添加NODE_PATH环境变量，如下：</strong></li></ol><p><img src="/img/2022/06/08/image-20211017222733903.png"></p><ol start="2"><li><strong>PATH添加D:\software\nodejs\node_global</strong></li></ol><p><img src="/img/2022/06/08/image-20211017223007751.png"></p><ol start="3"><li><strong>测试truffle安装</strong></li></ol><p><img src="/img/2022/06/08/image-20211017223500544.png"></p><p>注意：如果出现报错提示权限问题，请切换到管理员模式下执行命令。</p><p><img src="/img/2022/06/08/image-20211017223839559.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>安装配置</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>NodeJs</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
   
 </search>
