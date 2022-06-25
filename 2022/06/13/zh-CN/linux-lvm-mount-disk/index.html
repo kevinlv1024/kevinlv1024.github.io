@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar2.png">
+  <link rel="icon" href="/img/avatar2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kevin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.列出磁盘信息 sudo lsblk 列出磁盘设备信息    sudo fdisk -l   2.创建物理卷 创建物理卷时，会将需要创建物理卷的磁盘格式化掉 创建物理卷的磁盘不能处于挂载状态（如处于挂载状态，需要先umount掉）   sudo pvcreate &#x2F;dev&#x2F;nvme0n1 &#x2F;dev&#x2F;nvme1n1  3.查看物理卷sudo pvdisplay  4.创建卷组创建一个名为lvm_d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu多个磁盘挂载到同一个目录">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/13/zh-CN/linux-lvm-mount-disk/index.html">
+<meta property="og:site_name" content="Kevin&#39;s Blog">
+<meta property="og:description" content="1.列出磁盘信息 sudo lsblk 列出磁盘设备信息    sudo fdisk -l   2.创建物理卷 创建物理卷时，会将需要创建物理卷的磁盘格式化掉 创建物理卷的磁盘不能处于挂载状态（如处于挂载状态，需要先umount掉）   sudo pvcreate &#x2F;dev&#x2F;nvme0n1 &#x2F;dev&#x2F;nvme1n1  3.查看物理卷sudo pvdisplay  4.创建卷组创建一个名为lvm_d">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/13/index-bannerLVM-for-Linux-1024x667.jpg">
+<meta property="article:published_time" content="2022-06-13T15:59:59.000Z">
+<meta property="article:modified_time" content="2022-06-19T10:36:33.657Z">
+<meta property="article:author" content="Kevin">
+<meta property="article:tag" content="Lvm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/13/index-bannerLVM-for-Linux-1024x667.jpg">
+  
+  
+  
+  <title>ubuntu多个磁盘挂载到同一个目录 - Kevin&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kevinlv1024.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 50vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Kevin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ubuntu多个磁盘挂载到同一个目录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-13 23:59" pubdate>
+          2022年6月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          828 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ubuntu多个磁盘挂载到同一个目录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1-列出磁盘信息"><a href="#1-列出磁盘信息" class="headerlink" title="1.列出磁盘信息"></a>1.列出磁盘信息</h2><ul>
+<li>sudo lsblk 列出磁盘设备信息</li>
+</ul>
+<p><img src="/img/2022/06/13/image-20211018230137003.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>sudo fdisk -l</li>
+</ul>
+<p><img src="/img/2022/06/13/image-20211018230929657.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-创建物理卷"><a href="#2-创建物理卷" class="headerlink" title="2.创建物理卷"></a>2.创建物理卷</h2><ul>
+<li>创建物理卷时，会将需要创建物理卷的磁盘格式化掉</li>
+<li>创建物理卷的磁盘不能处于挂载状态（如处于挂载状态，需要先umount掉）</li>
+</ul>
+<p><code> sudo pvcreate /dev/nvme0n1 /dev/nvme1n1</code></p>
+<p><img src="/img/2022/06/13/image-20211018231101707.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="3-查看物理卷"><a href="#3-查看物理卷" class="headerlink" title="3.查看物理卷"></a>3.查看物理卷</h2><p><code>sudo pvdisplay</code></p>
+<p><img src="/img/2022/06/13/image-20211018231453849.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="4-创建卷组"><a href="#4-创建卷组" class="headerlink" title="4.创建卷组"></a>4.创建卷组</h2><p>创建一个名为lvm_data的vg组(名字可以随便改)，并将&#x2F;dev&#x2F;nvme0n1和 &#x2F;dev&#x2F;nvme1n1物理卷添加到该卷组中</p>
+<p><code> sudo vgcreate lvm_data /dev/nvme0n1  /dev/nvme1n1</code></p>
+<p><img src="/img/2022/06/13/image-20211018231733806.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="5-创建逻辑卷"><a href="#5-创建逻辑卷" class="headerlink" title="5.创建逻辑卷"></a>5.创建逻辑卷</h2><ul>
+<li><code>l</code> 指定逻辑卷的大小</li>
+<li><code>n</code> 自定义逻辑卷组的名称</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">lvmdata 重命名的逻辑卷名字</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">lvm_data 物理卷组名字</span><br>sudo lvcreate -l 100%VG -n lvmdata lvm_data<br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/2022/06/13/image-20211018232338119.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="6-查看分区"><a href="#6-查看分区" class="headerlink" title="6.查看分区"></a>6.查看分区</h2><p><code>sudo fdisk -l</code></p>
+<p>可以看到新的逻辑卷位置 &#x2F;dev&#x2F;mapper&#x2F;lvm_data-lvmdata</p>
+<p><img src="/img/2022/06/13/image-20211018232539536.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="7-格式化分区"><a href="#7-格式化分区" class="headerlink" title="7.格式化分区"></a>7.格式化分区</h2><p><code>sudo mkfs.ext4 /dev/mapper/lvm_data-lvmdata</code></p>
+<p><img src="/img/2022/06/13/image-20211018232808936.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="8-创建文件目录"><a href="#8-创建文件目录" class="headerlink" title="8.创建文件目录"></a>8.创建文件目录</h2><p><code>sudo mkdir /tankdata</code></p>
+<h2 id="9-挂载到指定的目录"><a href="#9-挂载到指定的目录" class="headerlink" title="9.挂载到指定的目录"></a>9.挂载到指定的目录</h2><p>将逻辑分区挂载到需要保存文件的目录即可</p>
+<p><code>sudo mount /dev/mapper/lvm_data-lvmdata /tankdata</code></p>
+<h2 id="10-检查确认"><a href="#10-检查确认" class="headerlink" title="10.检查确认"></a>10.检查确认</h2><p><code>sudo df -h</code></p>
+<p><img src="/img/2022/06/13/image-20211018233358300.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="11-开机自动挂载"><a href="#11-开机自动挂载" class="headerlink" title="11.开机自动挂载"></a>11.开机自动挂载</h2><p>在<code>/etc/fstab</code>中添加挂载信息，实现开机自动挂载</p>
+<p><code>/dev/mapper/lvm_data-lvmdata  /tankdata    ext4 defaults 0 0</code></p>
+<p>参考链接：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://alianga.com/articles/linux-dir-expand">https://alianga.com/articles/linux-dir-expand</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/syyyyyyyyyyyyyyh/article/details/120037746">https://blog.csdn.net/syyyyyyyyyyyyyyh/article/details/120037746</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%90%E7%BB%B4%E7%AC%94%E8%AE%B0/" class="category-chain-item">运维笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Lvm/">#Lvm</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ubuntu多个磁盘挂载到同一个目录</div>
+      <div>https://kevinlv1024.github.io/2022/06/13/zh-CN/linux-lvm-mount-disk/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kevin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月13日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/14/zh-CN/rust-dev-roadmap/" title="Rust开发者成长路线">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Rust开发者成长路线</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/12/zh-CN/Typora-PicGo/" title="Typora使用PicGo配置七牛云图床">
+                        <span class="hidden-mobile">Typora使用PicGo配置七牛云图床</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

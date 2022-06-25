@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar2.png">
+  <link rel="icon" href="/img/avatar2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kevin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、Golang环境安装1.Windows下安装下载地址：https:&#x2F;&#x2F;gomirrors.org&#x2F; 有zip压缩版和msi安装版两个按本下载。（这里使用msi安装版，比较方便）。 运行msi安装文件，安装路径可以自定义(我安装在C:\Go目录下)，千万不要在安装路径中出现中文，一路Next即可。  2.配置环境变量注意：如果是msi安装文件，Go语言的环境变量会自动设置好。 我的电脑—-右键“">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win10系统Golang开发环境搭建">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/09/zh-CN/win-golang-envconfig/index.html">
+<meta property="og:site_name" content="Kevin&#39;s Blog">
+<meta property="og:description" content="一、Golang环境安装1.Windows下安装下载地址：https:&#x2F;&#x2F;gomirrors.org&#x2F; 有zip压缩版和msi安装版两个按本下载。（这里使用msi安装版，比较方便）。 运行msi安装文件，安装路径可以自定义(我安装在C:\Go目录下)，千万不要在安装路径中出现中文，一路Next即可。  2.配置环境变量注意：如果是msi安装文件，Go语言的环境变量会自动设置好。 我的电脑—-右键“">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/09/index_banner_win_golang.png">
+<meta property="article:published_time" content="2022-06-09T15:59:59.000Z">
+<meta property="article:modified_time" content="2022-06-19T10:32:37.489Z">
+<meta property="article:author" content="Kevin">
+<meta property="article:tag" content="Golang">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/09/index_banner_win_golang.png">
+  
+  
+  
+  <title>Win10系统Golang开发环境搭建 - Kevin&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kevinlv1024.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 50vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Kevin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Win10系统Golang开发环境搭建"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-09 23:59" pubdate>
+          2022年6月9日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Win10系统Golang开发环境搭建</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一、Golang环境安装"><a href="#一、Golang环境安装" class="headerlink" title="一、Golang环境安装"></a>一、Golang环境安装</h1><h2 id="1-Windows下安装"><a href="#1-Windows下安装" class="headerlink" title="1.Windows下安装"></a>1.Windows下安装</h2><p>下载地址：<a target="_blank" rel="noopener" href="https://gomirrors.org/">https://gomirrors.org/</a></p>
+<p>有zip压缩版和msi安装版两个按本下载。（这里使用msi安装版，比较方便）。</p>
+<p>运行msi安装文件，安装路径可以自定义(我安装在C:\Go目录下)，千万不要在安装路径中出现中文，一路Next即可。</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-3716209159493676869-93583c94.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2.配置环境变量"></a>2.配置环境变量</h2><p>注意：如果是msi安装文件，Go语言的环境变量会自动设置好。</p>
+<p>我的电脑—-右键“属性”—-“高级系统设置”—–“环境变量”—-“系统变量”</p>
+<p>新建：</p>
+<ul>
+<li>GOROOT : Go安装路径（例如：C:\Go）</li>
+<li>GOPATH：Go工程的路径（例如：D:\gopath）。如果有多个，就以分号分隔添加</li>
+<li>Path：在path中添加：%GOROOT%\bin;%GOPATH%\bin</li>
+</ul>
+<p><img src="/img/2022/06/09/1628078255876-c1d8a5e5.png" srcset="/img/loading.gif" lazyload></p>
+<p>需要把GOPATH中的可执行目录也配置到环境变量中，否则你自行下载的第三方go工具就无法使用了。</p>
+<ul>
+<li>工作目录就是我们用来存放开发的源代码的地方，对应的也是Go里的GOPATH这个环境变量。这个环境变量指定之后，我们编译源代码等生成的文件都会放到这个目录下，GOPATH环境变量的配置参考上面的安装Go，配置到Windows下的系统变量里。</li>
+<li>GOPATH之下主要包含三个目录：bin、pkg、src。bin目录主要存放可执行文件；pkg目录存放编译好的库文件，主要是*.a文件；src目录下主要存放Go的源文件。</li>
+</ul>
+<h2 id="3-验证是否成功"><a href="#3-验证是否成功" class="headerlink" title="3.验证是否成功"></a>3.验证是否成功</h2><p>使用快捷键win+R键，输入cmd打开命令行提示符，输入go version如下提示表示安装成功。</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-3083872596219487083-47335d23.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="4-查看Go环境配置"><a href="#4-查看Go环境配置" class="headerlink" title="4.查看Go环境配置"></a>4.查看Go环境配置</h2><p>使用快捷键win+R键，输入cmd打开命令行提示符，输入go env查看Go环境配置，如下图：</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-3343973207683235373-8b37d9d0.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h1 id="二、开发编辑器VsCode配置"><a href="#二、开发编辑器VsCode配置" class="headerlink" title="二、开发编辑器VsCode配置"></a>二、开发编辑器VsCode配置</h1><h2 id="1-下载与安装"><a href="#1-下载与安装" class="headerlink" title="1.下载与安装"></a>1.下载与安装</h2><p>官方下载地址：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/%E3%80%82">https://code.visualstudio.com/。</a></p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-6544929490238481175-ae8757c2.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>VS Code有两个不同的发布版本：Stable和Insiders。</p>
+<p>Stable：蓝色的图标，稳定版，适合刚接触VS Code的人安装（目前我用的是这个版本）。<br>Insiders：绿色的图标，相当于bate版本，很多新添的功能都能第一时间在这个版本使用，更新比较频繁。</p>
+<h2 id="2-安装中文简体插件"><a href="#2-安装中文简体插件" class="headerlink" title="2.安装中文简体插件"></a>2.安装中文简体插件</h2><h3 id="2-1快捷键找到语言配置"><a href="#2-1快捷键找到语言配置" class="headerlink" title="2.1快捷键找到语言配置"></a>2.1快捷键找到语言配置</h3><p>打开“vscode” ，打开命令面板的快捷键是 “F1” 或者 “Ctrl + Shift + P”。<br>在顶部搜索框中输入“configure language”，按回车键。如图：</p>
+<p><img src="/img/2022/06/09/85a6cee3b0c043ee8ba06eeef7c9881c.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="2-2安装中文语言包"><a href="#2-2安装中文语言包" class="headerlink" title="2.2安装中文语言包"></a>2.2安装中文语言包</h3><p>然后就选择“Install additional languages”，然后选择中文&#x2F;简体，如图：</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-9152928845542363454-b7d16571.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="2-3重启IDE"><a href="#2-3重启IDE" class="headerlink" title="2.3重启IDE"></a>2.3重启IDE</h3><p>然后选择Install，安装好后，点击重新启动，如图：</p>
+<p><img src="/img/2022/06/09/7decf98ecb6747ee9ccdf8f4059ede8f.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="3-安装go扩展"><a href="#3-安装go扩展" class="headerlink" title="3.安装go扩展"></a>3.安装go扩展</h2><p>安装步骤：1、先找到扩展插件。2、输入Go。3、找到第一个。4、安装。</p>
+<p><img src="/img/2022/06/09/solo-fetchupload-942234882913573187-2f833ecb.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="4-配置文件"><a href="#4-配置文件" class="headerlink" title="4.配置文件"></a>4.配置文件</h2><h3 id="4-1快捷键找到配置"><a href="#4-1快捷键找到配置" class="headerlink" title="4.1快捷键找到配置"></a>4.1快捷键找到配置</h3><p>打开命令面板的快捷键是 “F1” 或者 “Ctrl + Shift + P”。在顶部搜索框中输入“settings.json”，按回车键。如图：</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-5706921287426215025-a4b34282.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>或者不用快捷键，如图操作也可以达到效果。</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-3560086833236996171-6d005635.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-4063250763713414247-1d4d492e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="4-2给settings-json写上基本的配置"><a href="#4-2给settings-json写上基本的配置" class="headerlink" title="4.2给settings.json写上基本的配置"></a>4.2给settings.json写上基本的配置</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;go.alternateTools&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>  <br>     <span class="hljs-comment">// 自动保存</span><br>     <span class="hljs-attr">&quot;files.autoSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;onFocusChange&quot;</span><span class="hljs-punctuation">,</span> <br><br>     <span class="hljs-attr">&quot;go.buildOnSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;package&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.lintOnSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;package&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.vetOnSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;package&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.buildFlags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.lintFlags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.vetFlags&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.coverOnSave&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.useCodeSnippetsOnFunctionSuggest&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span> <br>     <span class="hljs-attr">&quot;go.formatTool&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;goreturns&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.gocodeAutoBuild&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span><br> <br>     <span class="hljs-comment">// 最重要的两个(go env命令可以查到)</span><br>     <span class="hljs-comment">//goroot是</span><br>     <span class="hljs-attr">&quot;go.goroot&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;C:\\Go&quot;</span><span class="hljs-punctuation">,</span><br>     <span class="hljs-attr">&quot;go.gopath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D:\\gopath&quot;</span><span class="hljs-punctuation">,</span><br><br>     <span class="hljs-comment">// 自动提示</span><br>     <span class="hljs-attr">&quot;go.autocompleteUnimportedPackages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><br>    <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-go依赖插件安装"><a href="#5-go依赖插件安装" class="headerlink" title="5.go依赖插件安装"></a>5.go依赖插件安装</h2><h3 id="5-1直接安装"><a href="#5-1直接安装" class="headerlink" title="5.1直接安装"></a>5.1直接安装</h3><p>打开VsCode如果缺少相关的依赖，编译器会自动提示，只需要点install all就行，如下图：</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-2352104045416450-57bd0b99.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>安装过程中可能会出现失败，原因你懂的，可以使用后面步骤中的go mod代理安装。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">Installing github.com<span class="hljs-regexp">/mdempsky/g</span>ocode FAILED<br>Installing github.com<span class="hljs-regexp">/uudashr/g</span>opkgs<span class="hljs-regexp">/v2/</span>cmd/gopkgs FAILED<br>Installing github.com<span class="hljs-regexp">/ramya-rao-a/g</span>o-outline FAILED<br>Installing github.com<span class="hljs-regexp">/acroca/g</span>o-symbols FAILED<br>Installing golang.org<span class="hljs-regexp">/x/</span>tools<span class="hljs-regexp">/cmd/gu</span>ru FAILED<br>Installing golang.org<span class="hljs-regexp">/x/</span>tools<span class="hljs-regexp">/cmd/g</span>orename FAILED<br>Installing github.com<span class="hljs-regexp">/cweill/g</span>otests/… FAILED<br>Installing github.com<span class="hljs-regexp">/fatih/g</span>omodifytags FAILED<br>Installing github.com<span class="hljs-regexp">/josharian/im</span>pl FAILED<br>Installing github.com<span class="hljs-regexp">/davidrjenni/</span>reftools<span class="hljs-regexp">/cmd/</span>fillstruct FAILED<br>Installing github.com<span class="hljs-regexp">/haya14busa/g</span>oplay<span class="hljs-regexp">/cmd/g</span>oplay FAILED<br>Installing github.com<span class="hljs-regexp">/godoctor/g</span>odoctor FAILED<br>Installing github.com<span class="hljs-regexp">/go-delve/</span>delve<span class="hljs-regexp">/cmd/</span>dlv FAILED<br>Installing github.com<span class="hljs-regexp">/stamblerre/g</span>ocode FAILED<br>Installing github.com<span class="hljs-regexp">/rogpeppe/g</span>odef FAILED<br>Installing github.com<span class="hljs-regexp">/sqs/g</span>oreturns FAILED<br>Installing golang.org<span class="hljs-regexp">/x/</span>lint/golint FAILED<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2go-mod代理安装"><a href="#5-2go-mod代理安装" class="headerlink" title="5.2go mod代理安装"></a>5.2go mod代理安装</h3><p><a target="_blank" rel="noopener" href="https://goproxy.io是一个国内的代理/">https://goproxy.io是一个国内的代理</a></p>
+<p>执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">go <span class="hljs-built_in">env</span> -w GO111MODULE=on<br>go <span class="hljs-built_in">env</span> -w GOPROXY=https://goproxy.io,direct<br></code></pre></td></tr></table></figure>
+
+<p>关闭vscode重新打开，再次点击install all即可。</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-2549314523303027115-efa639c4.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="6-自动补全"><a href="#6-自动补全" class="headerlink" title="6.自动补全"></a>6.自动补全</h2><p>VsCode下载插件后，更改Go的配置的settings.json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;go.useCodeSnippetsOnFunctionSuggest&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span><br></code></pre></td></tr></table></figure>
+
+<p>如果是false，要输入第三个字符后才提示；如果是true，输入第一个就开始提示了。<br>如果是无法提示golang，可能是没有安装gocode。下载gocode，go get -u github.com&#x2F;mdempsky&#x2F;gocode。</p>
+<h2 id="7-CodeRunner插件安装"><a href="#7-CodeRunner插件安装" class="headerlink" title="7.CodeRunner插件安装"></a>7.CodeRunner插件安装</h2><p>点下图左侧图标或依次点击文件–&gt;首选项–&gt;扩展，在搜索框搜索CodeRunner插件安装</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-4114332271329112327-339cf21f.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>勾选Run in Terminal选项</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-5660019363044322994-a798835b.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h1 id="三、第一个Go程序"><a href="#三、第一个Go程序" class="headerlink" title="三、第一个Go程序"></a>三、第一个Go程序</h1><h2 id="1-创建helloworld项目"><a href="#1-创建helloworld项目" class="headerlink" title="1.创建helloworld项目"></a>1.创建helloworld项目</h2><p>现在我们来创建第一个Go项目——<code>hello</code>。在我们的<code>GOPATH</code>下的src目录中创建hello目录。</p>
+<p>在该目录中创建一个<code>hello.go</code>文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main <span class="hljs-comment">// 声明 main 包，表明当前是一个可执行程序</span><br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>  <span class="hljs-comment">// 导入内置 fmt 包</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123; <span class="hljs-comment">// main函数，是程序执行的入口</span><br>	<span class="hljs-keyword">var</span> name <span class="hljs-type">string</span><br>	fmt.Println(<span class="hljs-string">&quot;请输入你的名字：&quot;</span>)<br>	fmt.Scanln(&amp;name)<br>	fmt.Println(<span class="hljs-string">&quot;你好&quot;</span>, name)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-运行"><a href="#2-运行" class="headerlink" title="2.运行"></a>2.运行</h2><h3 id="2-1控制台命令行执行"><a href="#2-1控制台命令行执行" class="headerlink" title="2.1控制台命令行执行"></a>2.1控制台命令行执行</h3><p>控制台直接输入命令：<code>go run hello.go</code></p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-9081840593536978440-2704bf29.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h3 id="2-2IDE直接运行"><a href="#2-2IDE直接运行" class="headerlink" title="2.2IDE直接运行"></a>2.2IDE直接运行</h3><p>也可以点下图小三角执行，执行前配置好launch.json</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-5760337381211804342-fc47e9be.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<p>launch.json配置如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;LaunchGo&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;go&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;request&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;launch&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;mode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;debug&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;remotePath&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;port&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5546</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;host&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;127.0.0.1&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;program&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;fileDirname&#125;&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;env&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>                <span class="hljs-attr">&quot;GOPATH&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;D:\\gopath&quot;</span><span class="hljs-punctuation">,</span><br>                <span class="hljs-attr">&quot;GOROOT&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;C:\\Go&quot;</span><br>            <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;args&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;showLog&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><br>        <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3CodeRunner运行"><a href="#2-3CodeRunner运行" class="headerlink" title="2.3CodeRunner运行"></a>2.3CodeRunner运行</h3><p>选中文件右键Run Code或者点如下图小图标进行运行和停止：</p>
+<p><img src="https://b3logfile.com/file/2021/09/solo-fetchupload-7707527249485527027-faada5a1.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" class="category-chain-item">安装配置</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Golang/">#Golang</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Win10系统Golang开发环境搭建</div>
+      <div>https://kevinlv1024.github.io/2022/06/09/zh-CN/win-golang-envconfig/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kevin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月9日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/06/10/zh-CN/idea-alibaba-plugin/" title="IntelliJ IDEA 必备插件之阿里巴巴代码规范插件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IntelliJ IDEA 必备插件之阿里巴巴代码规范插件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/09/zh-CN/win-rust-install/" title="windows环境下安装rust">
+                        <span class="hidden-mobile">windows环境下安装rust</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
