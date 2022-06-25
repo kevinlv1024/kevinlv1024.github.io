@@ -16,26 +16,24 @@
   <meta name="author" content="Kevin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Piece简介Filecoin中的Piece 是用户在 Filecoin 网络上存储的数据的主要协商单元。Filecoin Piece 不是一个存储单元，它没有特定的大小，而是以扇区大小为上限。Filecoin Piece 可以是任意大小，但如果 Piece 大于矿工支持的 扇区大小，则必须将其拆分为更多的 Pieces，以便每个 Piece 适合一个扇区。 Piece 是代表文件的全部或部分">
+    <meta name="description" content="简单几步就可以将本地项目推送到远程仓库：  1.远程仓库创建项目先在远程仓库如github或gitlib上创建好项目,为了避免错误,不要初始化 README, license, 或者gitignore文件 2.初始化本地仓库 打开Terminal终端  切换到你的本地项目目录  初始化本地仓库   1git init  3.将本地仓库和远程仓库关联1git remote add origin 你">
 <meta property="og:type" content="article">
-<meta property="og:title" content="filecoin中Piece信息详解">
-<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/14/zh-CN/filspec-pieces/index.html">
+<meta property="og:title" content="本地项目git初始化并提交远程仓库">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/06/25/zh-CN/gitinit-remote-push/index.html">
 <meta property="og:site_name" content="Kevin&#39;s Blog">
-<meta property="og:description" content="1.Piece简介Filecoin中的Piece 是用户在 Filecoin 网络上存储的数据的主要协商单元。Filecoin Piece 不是一个存储单元，它没有特定的大小，而是以扇区大小为上限。Filecoin Piece 可以是任意大小，但如果 Piece 大于矿工支持的 扇区大小，则必须将其拆分为更多的 Pieces，以便每个 Piece 适合一个扇区。 Piece 是代表文件的全部或部分">
+<meta property="og:description" content="简单几步就可以将本地项目推送到远程仓库：  1.远程仓库创建项目先在远程仓库如github或gitlib上创建好项目,为了避免错误,不要初始化 README, license, 或者gitignore文件 2.初始化本地仓库 打开Terminal终端  切换到你的本地项目目录  初始化本地仓库   1git init  3.将本地仓库和远程仓库关联1git remote add origin 你">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/14/fil-pieces.png">
-<meta property="article:published_time" content="2022-06-14T13:20:14.000Z">
-<meta property="article:modified_time" content="2022-06-19T13:23:42.392Z">
+<meta property="og:image" content="https://kevinlv1024.github.io/img/2022/06/25/Introduction-To-GIT2.png">
+<meta property="article:published_time" content="2022-06-25T07:45:41.000Z">
+<meta property="article:modified_time" content="2022-06-25T08:57:05.473Z">
 <meta property="article:author" content="Kevin">
-<meta property="article:tag" content="Ipfs">
-<meta property="article:tag" content="Filecoin">
-<meta property="article:tag" content="Lotus">
+<meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/14/fil-pieces.png">
+<meta name="twitter:image" content="https://kevinlv1024.github.io/img/2022/06/25/Introduction-To-GIT2.png">
   
   
   
-  <title>filecoin中Piece信息详解 - Kevin&#39;s Blog</title>
+  <title>本地项目git初始化并提交远程仓库 - Kevin&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="filecoin中Piece信息详解"></span>
+            <span id="subtitle" data-typed-text="本地项目git初始化并提交远程仓库"></span>
           
         </div>
 
@@ -211,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-14 21:20" pubdate>
-          2022年6月14日 晚上
+        <time datetime="2022-06-25 15:45" pubdate>
+          2022年6月25日 下午
         </time>
       </span>
     
@@ -223,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          387 字
         
       </span>
     
@@ -234,7 +232,7 @@
         
         
         
-          24 分钟
+          4 分钟
         
       </span>
     
@@ -272,79 +270,35 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">filecoin中Piece信息详解</h1>
+            <h1 style="display: none">本地项目git初始化并提交远程仓库</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="1-Piece简介"><a href="#1-Piece简介" class="headerlink" title="1.Piece简介"></a>1.Piece简介</h2><p>Filecoin中的Piece 是用户在 Filecoin 网络上存储的数据的主要协商单元。Filecoin Piece 不是一个存储单元，它没有特定的大小，而是以扇区大小为上限。Filecoin Piece 可以是任意大小，但如果 Piece 大于矿工支持的 扇区大小，则必须将其拆分为更多的 Pieces，以便每个 Piece 适合一个扇区。</p>
-<p>Piece 是代表文件的全部或部分的对象，由存储客户端和存储矿工在交易中使用。存储客户端雇用存储矿工来存储Piece。</p>
-<p>Piece 的数据结构设计用于证明任意 IPLD 图和客户端数据的存储。下图显示了 Piece 及其证明树的详细组成，包括完整和带宽优化的 Piece 数据结构。</p>
-<p><img src="/img/2022/06/14/fil-pieces.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>说明：</strong></p>
-<ul>
-<li><strong>Filecoin中的Piece（A Filecoin Piece）</strong>:</li>
-</ul>
-<p>Filecoin Piece是Payload.car 、证明树和可能带有一些填充的有向无环图。它的根哈希是PieceCID。</p>
-<p>Payload的PayloadCID嵌入在 .car文件 中。</p>
-<ul>
-<li><strong>准备Piece证明树(Prepare Piece Proving Tree)</strong></li>
-</ul>
-<p>Piece中的证明树是一个用来为扇区产生复制证明的平衡二叉默克尔树。树的叶节点是32字节的短哈希负载数据片段。为了树的平衡，可能会添加0填充。</p>
-<p>证明树的产生是确定的，可能不需要被存储或传输，取决于用户怎样使用。</p>
-<ul>
-<li><strong>Piece也是一个IPLD 图（The Piece is an  IPLD graph  too!）</strong></li>
-</ul>
-<p>Piece也算作是IPLD图，它的根哈希是CID-即PieceCID.</p>
-<ul>
-<li><strong>全Piece图数据（full piece graph data）</strong></li>
-</ul>
-<p>Piece 可以完整存储或发送，包括有效载荷、证明树（包括 PieceCID）和任何零填充。</p>
-<p>这种表示是带宽浪费，因为 &gt; 50% 可以从其余部分计算出来。</p>
-<p>但是传输更安全，因为整个哈希链接图都经过身份验证，并且可以增量验证。这在 DOS 危险环境中很重要。</p>
-<ul>
-<li><strong>优化带宽数据（Bandwidth optimized data）</strong></li>
-</ul>
-<p>Piece 也可以稀疏地存储或发送，仅包含有效负载、PieceCID 和证明树的一部分。</p>
-<p>这种表示可以节省带宽，因为 &gt; 50% 可以从其余部分中计算出来。</p>
-<p>但是转移它会带来一些 DOS 风险，因为在验证之前必须接收的有效负载量取决于发送了多少证明树。</p>
-<p>根据传输方式，有效负载可以作为 ipld 图（graphsync，ipfs）或 .car（http，ftp）发送。</p>
-<h2 id="2-数据表示"><a href="#2-数据表示" class="headerlink" title="2.数据表示"></a>2.数据表示</h2><p>它是重要的去强调提交给 Filecoin 网络的数据在变成存储提供者存储它的格式之前要经过多次转换。</p>
-<p>以下是从用户开始准备文件以存储在 Filecoin 中到提供者生成存储在扇区中的所有 Pieces 标识符的过程。</p>
-<p>前三个步骤发生在客户端。</p>
-<ol>
-<li><p>当客户想要在 Filecoin 网络中存储文件时，他们首先生成文件的 IPLD DAG。 代表 DAG 根节点的哈希是一个 IPFS 样式的 CID，称为 Payload CID。</p>
+                <blockquote>
+<p>简单几步就可以将本地项目推送到远程仓库：</p>
+</blockquote>
+<h2 id="1-远程仓库创建项目"><a href="#1-远程仓库创建项目" class="headerlink" title="1.远程仓库创建项目"></a>1.远程仓库创建项目</h2><p>先在远程仓库如github或gitlib上创建好项目,为了避免错误,不要初始化 README, license, 或者gitignore文件</p>
+<h2 id="2-初始化本地仓库"><a href="#2-初始化本地仓库" class="headerlink" title="2.初始化本地仓库"></a>2.初始化本地仓库</h2><ul>
+<li><p>打开Terminal终端</p>
 </li>
-<li><p>为了生成 Filecoin Piece，IPLD DAG 被序列化为原始字节格式的“Content-Addressable aRchive”（.car）文件。 CAR 文件是一个不透明的数据块，它打包在一起并传输 IPLD 节点。 Payload CID 在 CAR’ed 和 un-CAR’ed 结构之间是通用的。 这是有助于后面在数据检索期间，当数据在存储客户端和存储提供者之间传输时。</p>
+<li><p>切换到你的本地项目目录</p>
 </li>
-<li><p>生成的 .car 文件用额外的零位填充，以便文件生成二叉默克尔树。 要获得干净的二元默克尔树，.car 文件大小必须是 2 (^2) 大小的某个幂。 对输入文件应用称为 Fr32 填充的填充过程，该过程在每 256 位中的每 254 位中添加两 (2) 个零位。 在下一步中，填充过程获取 Fr32 填充过程的输出，并找到它上面的大小，该大小是 2 大小的幂。 Fr32 填充的结果与下一个 2 大小的幂之间的差距用零填充。</p>
-</li>
-</ol>
-<p>为了证明这些步骤背后的原因，了解 存储客户端和 存储提供者之间的整体协商过程非常重要。 CID 或 CommP 是客户与存储提供者协商并同意的交易中包含的内容。 达成交易后，客户端将文件发送给提供者（使用 GraphSync）。 提供者必须根据收到的文件构建 CAR 文件，并从他们那里获得 Piece CID。 为了避免客户向商定的文件发送不同的文件，提供商生成的 Piece CID 必须与之前协商的交易中包含的文件相同。</p>
-<p>以下步骤发生在 存储提供端（除了步骤 4 也可以在客户端发生）。</p>
-<ol start="4">
-<li><p>一旦存储提供者收到来自客户端的文件，它们就会根据 Piece 的哈希值（填充的 .car 文件）计算 Merkle 根。 干净的二叉Merkle树的结果根是 Piece CID。 这也称为 CommP 或 Piece Commitment，如前所述，必须与交易中包含的相同。</p>
-</li>
-<li><p>Piece 与来自其他交易的数据一起包含在一个扇区中。存储提供者然后为扇区内的所有 Pieces 计算 Merkle 根。 这棵树的根是 CommD（又名 Commitment of Data 或 UnsealedSectorCID）。</p>
-</li>
-<li><p>然后存储提供者密封扇区，生成的 Merkle 根的根是 CommRLast。</p>
-</li>
-<li><p>复制证明 (PoRep)，尤其是 SDR，会生成另一个称为 CommC 的 Merkle 根哈希，以证明其提交为 CommD 的数据的复制已正确执行。</p>
-</li>
-<li><p>最后，CommR（或Commitment of Replication）是(CommC|| CommRLast)的哈希。</p>
-</li>
-</ol>
-<p><strong>注意事项：</strong></p>
-<ul>
-<li><p>Fr32 是字段元素的 32 位表示（在我们的例子中，它是 BLS12-381 的算术字段）。 为了形成良好的格式，类型 Fr32 的值实际上必须适合该字段，但这不是由类型系统强制执行的。 它是一个不变量，必须通过正确使用来保持。 在所谓的 Fr32 填充的情况下，两个零位被插入到一个数字“之后”，最多需要 254 位来表示。 这保证了结果将为 Fr32，而不管初始 254 位的值如何。 这是一种“保守”技术，因为对于某些初始值，实际上只需要一位零填充。</p>
-</li>
-<li><p>上面的步骤 2 和 3 是特定于 Lotus 实现的。 可以通过不同的方式实现相同的结果，例如，不使用 Fr32 位填充。 但是，任何实现都必须确保初始 IPLD DAG 被序列化和填充，以便它提供干净的二叉树，因此，从结果数据块中计算 Merkle 根会给出相同的 Piece CID。 只要是这种情况，实现就可以偏离上面的前三个步骤。</p>
-</li>
-<li><p>最后，重要的是添加与 Payload CID（在上面的前两个步骤中讨论过）和数据检索过程相关的注释。 检索交易是根据 Payload CID 协商的。 当检索交易达成一致时，检索矿工开始向客户端发送未密封和“un-CAR’ed”的文件。 传输从 IPLD Merkle 树的根节点开始，通过这种方式，客户端可以从传输开始验证 Payload CID，并验证他们接收的文件是他们在交易中协商的文件，而不是随机位。</p>
+<li><p>初始化本地仓库</p>
 </li>
 </ul>
-<h2 id="3-PieceStore模块"><a href="#3-PieceStore模块" class="headerlink" title="3.PieceStore模块"></a>3.PieceStore模块</h2><p>PieceStore模块允许从一些本地存储中存储和检索 Piece。PieceStore的主要目标是帮助存储和检索市场模块找到密封数据在扇区内的位置。 存储市场写入数据，检索市场读取数据以发送给检索客户端。</p>
-<p>PieceStore模块的实现可以在这里<a target="_blank" rel="noopener" href="https://github.com/filecoin-project/go-fil-markets/tree/master/piecestore">找到</a>。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">git <span class="hljs-keyword">init</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-将本地仓库和远程仓库关联"><a href="#3-将本地仓库和远程仓库关联" class="headerlink" title="3.将本地仓库和远程仓库关联"></a>3.将本地仓库和远程仓库关联</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">git remote <span class="hljs-keyword">add </span><span class="hljs-keyword">origin </span>你的项目地址<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-添加文件到本地仓库"><a href="#4-添加文件到本地仓库" class="headerlink" title="4.添加文件到本地仓库"></a>4.添加文件到本地仓库</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">git <span class="hljs-built_in">add</span> .<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-提交文件"><a href="#5-提交文件" class="headerlink" title="5.提交文件"></a>5.提交文件</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">git</span> commit -m <span class="hljs-string">&quot;你要添加的提交信息&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6-推送到远程仓库"><a href="#6-推送到远程仓库" class="headerlink" title="6.推送到远程仓库"></a>6.推送到远程仓库</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">git <span class="hljs-built_in">push</span> -u <span class="hljs-built_in">origin</span> master<br></code></pre></td></tr></table></figure>
+
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="1-远程仓库初始化了README等文件导致推送报错"><a href="#1-远程仓库初始化了README等文件导致推送报错" class="headerlink" title="1.远程仓库初始化了README等文件导致推送报错"></a>1.远程仓库初始化了README等文件导致推送报错</h3><p>解决方法：将远程仓库初始化文件删掉或者git push 加-f强制推送</p>
+<h3 id="2-推送到远程仓库由于分支不对引起报错"><a href="#2-推送到远程仓库由于分支不对引起报错" class="headerlink" title="2.推送到远程仓库由于分支不对引起报错"></a>2.推送到远程仓库由于分支不对引起报错</h3><p>解决方法：git push推送的时候指定要推送的本地分支名和远程分支名</p>
 
                 
               </div>
@@ -363,7 +317,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/" class="category-chain-item">区块链</a>
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E8%BD%AF%E4%BB%B6/" class="category-chain-item">工具软件</a>
   
   
 
@@ -378,11 +332,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Ipfs/">#Ipfs</a>
-      
-        <a href="/tags/Filecoin/">#Filecoin</a>
-      
-        <a href="/tags/Lotus/">#Lotus</a>
+        <a href="/tags/Git/">#Git</a>
       
     </div>
   
@@ -394,8 +344,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>filecoin中Piece信息详解</div>
-      <div>https://kevinlv1024.github.io/2022/06/14/zh-CN/filspec-pieces/</div>
+      <div>本地项目git初始化并提交远程仓库</div>
+      <div>https://kevinlv1024.github.io/2022/06/25/zh-CN/gitinit-remote-push/</div>
     </div>
     <div class="license-meta">
       
@@ -407,7 +357,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年6月14日</div>
+          <div>2022年6月25日</div>
         </div>
       
       
@@ -437,18 +387,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/25/zh-CN/gitinit-remote-push/" title="本地项目git初始化并提交远程仓库">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">本地项目git初始化并提交远程仓库</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/06/14/zh-CN/goland-cre-go-project/" title="Goland创建go项目并运行">
-                        <span class="hidden-mobile">Goland创建go项目并运行</span>
+                      <a href="/2022/06/14/zh-CN/filspec-pieces/" title="filecoin中Piece信息详解">
+                        <span class="hidden-mobile">filecoin中Piece信息详解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

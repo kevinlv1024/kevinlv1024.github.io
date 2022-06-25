@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>本地项目git初始化并提交远程仓库</title>
+    <link href="/2022/06/25/zh-CN/gitinit-remote-push/"/>
+    <url>/2022/06/25/zh-CN/gitinit-remote-push/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>简单几步就可以将本地项目推送到远程仓库：</p></blockquote><h2 id="1-远程仓库创建项目"><a href="#1-远程仓库创建项目" class="headerlink" title="1.远程仓库创建项目"></a>1.远程仓库创建项目</h2><p>先在远程仓库如github或gitlib上创建好项目,为了避免错误,不要初始化 README, license, 或者gitignore文件</p><h2 id="2-初始化本地仓库"><a href="#2-初始化本地仓库" class="headerlink" title="2.初始化本地仓库"></a>2.初始化本地仓库</h2><ul><li><p>打开Terminal终端</p></li><li><p>切换到你的本地项目目录</p></li><li><p>初始化本地仓库</p></li></ul><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">git <span class="hljs-keyword">init</span><br></code></pre></td></tr></table></figure><h2 id="3-将本地仓库和远程仓库关联"><a href="#3-将本地仓库和远程仓库关联" class="headerlink" title="3.将本地仓库和远程仓库关联"></a>3.将本地仓库和远程仓库关联</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">git remote <span class="hljs-keyword">add </span><span class="hljs-keyword">origin </span>你的项目地址<br></code></pre></td></tr></table></figure><h2 id="4-添加文件到本地仓库"><a href="#4-添加文件到本地仓库" class="headerlink" title="4.添加文件到本地仓库"></a>4.添加文件到本地仓库</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">git <span class="hljs-built_in">add</span> .<br></code></pre></td></tr></table></figure><h2 id="5-提交文件"><a href="#5-提交文件" class="headerlink" title="5.提交文件"></a>5.提交文件</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">git</span> commit -m <span class="hljs-string">&quot;你要添加的提交信息&quot;</span><br></code></pre></td></tr></table></figure><h2 id="6-推送到远程仓库"><a href="#6-推送到远程仓库" class="headerlink" title="6.推送到远程仓库"></a>6.推送到远程仓库</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">git <span class="hljs-built_in">push</span> -u <span class="hljs-built_in">origin</span> master<br></code></pre></td></tr></table></figure><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="1-远程仓库初始化了README等文件导致推送报错"><a href="#1-远程仓库初始化了README等文件导致推送报错" class="headerlink" title="1.远程仓库初始化了README等文件导致推送报错"></a>1.远程仓库初始化了README等文件导致推送报错</h3><p>解决方法：将远程仓库初始化文件删掉或者git push 加-f强制推送</p><h3 id="2-推送到远程仓库由于分支不对引起报错"><a href="#2-推送到远程仓库由于分支不对引起报错" class="headerlink" title="2.推送到远程仓库由于分支不对引起报错"></a>2.推送到远程仓库由于分支不对引起报错</h3><p>解决方法：git push推送的时候指定要推送的本地分支名和远程分支名</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具软件</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>filecoin中Piece信息详解</title>
     <link href="/2022/06/14/zh-CN/filspec-pieces/"/>
     <url>/2022/06/14/zh-CN/filspec-pieces/</url>
