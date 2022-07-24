@@ -1,0 +1,690 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar2.png">
+  <link rel="icon" href="/img/avatar2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kevin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="概述包gob管理gobs流 — 在编码器（发送器）和解码器（接收器）之间交换的二进制值。一个典型的用途是传输远程过程调用 (RPC) 的参数和结果，例如由包“net&#x2F;rpc”提供的那些。 该实现为流中的每种数据类型编译自定义编解码器，并且在使用单个编码器传输值流时最有效，从而分摊编译成本。 基础gobs流是自我描述的。流中的每个数据项之前都有其类型的规范，以一小组预定义的类型表示。指针不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言的序列化与反序列化（gob篇）">
+<meta property="og:url" content="https://kevinlv1024.github.io/2022/07/24/zh-CN/go-encoding-gob-md/index.html">
+<meta property="og:site_name" content="Kevin&#39;s Blog">
+<meta property="og:description" content="概述包gob管理gobs流 — 在编码器（发送器）和解码器（接收器）之间交换的二进制值。一个典型的用途是传输远程过程调用 (RPC) 的参数和结果，例如由包“net&#x2F;rpc”提供的那些。 该实现为流中的每种数据类型编译自定义编解码器，并且在使用单个编码器传输值流时最有效，从而分摊编译成本。 基础gobs流是自我描述的。流中的每个数据项之前都有其类型的规范，以一小组预定义的类型表示。指针不">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-24T12:33:16.000Z">
+<meta property="article:modified_time" content="2022-07-24T14:14:23.135Z">
+<meta property="article:author" content="Kevin">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="Gob">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Go语言的序列化与反序列化（gob篇） - Kevin&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"kevinlv1024.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 50vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Kevin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Go语言的序列化与反序列化（gob篇）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-24 20:33" pubdate>
+          2022年7月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          83 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Go语言的序列化与反序列化（gob篇）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>包gob管理gobs流 — 在编码器（发送器）和解码器（接收器）之间交换的二进制值。一个典型的用途是传输远程过程调用 (RPC) 的参数和结果，例如由包“net&#x2F;rpc”提供的那些。</p>
+<p>该实现为流中的每种数据类型编译自定义编解码器，并且在使用单个编码器传输值流时最有效，从而分摊编译成本。</p>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>gobs流是自我描述的。流中的每个数据项之前都有其类型的规范，以一小组预定义的类型表示。指针不被传输，但它们指向的东西被传输；也就是说，这些值是扁平的。 不允许使用 Nil 指针，因为它们没有值。递归类型工作正常，但递归值（带循环的数据）是有问题的。这可能会改变。</p>
+<p>要使用 gobs，请创建一个 Encoder 并将一系列数据项作为值或地址呈现给它，这些数据项可以被取消引用到值。编码器确保在需要之前发送所有类型信息。 在接收端，解码器从编码流中检索值并将它们解包到局部变量中。</p>
+<h3 id="类型和值"><a href="#类型和值" class="headerlink" title="类型和值"></a>类型和值</h3><p>源和目标值&#x2F;类型不需要完全对应。对于结构，在源中但接收变量中不存在的字段（由名称标识）将被忽略。 在接收变量中但在传输的类型或值中缺失的字段将在目标中被忽略。 如果两者中都存在同名字段，则它们的类型必须兼容。 接收器和发送器都将执行所有必要的间接和取消引用，以在 gob 和实际 Go 值之间进行转换。 例如，示意性的gob类型，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> &#123; A, B <span class="hljs-type">int</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以从以下任何 Go 类型发送或接收：</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gauss"><span class="hljs-keyword">struct</span> &#123; A, B int &#125;	<span class="hljs-comment">// 相同</span><br>*<span class="hljs-keyword">struct</span> &#123; A, B int &#125;	<span class="hljs-comment">// 额外的间接结构体引用</span><br><span class="hljs-keyword">struct</span> &#123; *A, **B int &#125;	<span class="hljs-comment">// 额外的间接字段引用</span><br><span class="hljs-keyword">struct</span> &#123; A, B int64 &#125;	<span class="hljs-comment">// 不同的具体值类型； 见下文</span><br></code></pre></td></tr></table></figure>
+
+<p>它也可能被接收到以下任何一个中：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> &#123; A, B <span class="hljs-type">int</span> &#125;	<span class="hljs-comment">// 相同</span><br><span class="hljs-keyword">struct</span> &#123; B, A <span class="hljs-type">int</span> &#125;	<span class="hljs-comment">// 顺序无关紧要； 匹配是按名称</span><br><span class="hljs-keyword">struct</span> &#123; A, B, C <span class="hljs-type">int</span> &#125;	<span class="hljs-comment">// 额外的字段C将被忽略</span><br><span class="hljs-keyword">struct</span> &#123; B <span class="hljs-type">int</span> &#125;	<span class="hljs-comment">// 遗漏字段 (A) 被忽略； 数据将被丢弃</span><br><span class="hljs-keyword">struct</span> &#123; B, C <span class="hljs-type">int</span> &#125;	<span class="hljs-comment">// 遗漏字段 (A) 被忽略； 额外字段 (C) 被忽略。</span><br></code></pre></td></tr></table></figure>
+
+<p>尝试接收这些类型将导致解码错误：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">struct</span> &#123; A <span class="hljs-built_in">int</span>; B <span class="hljs-built_in">uint</span> &#125;	<span class="hljs-comment">// B的符号发生变化</span><br><span class="hljs-keyword">struct</span> &#123; A <span class="hljs-built_in">int</span>; B <span class="hljs-built_in">float</span> &#125;	<span class="hljs-comment">// B的类型发生变化</span><br><span class="hljs-keyword">struct</span> &#123; &#125;			<span class="hljs-comment">// 没有共同的字段名称</span><br><span class="hljs-keyword">struct</span> &#123; C, D <span class="hljs-built_in">int</span> &#125;		<span class="hljs-comment">// 没有共同的字段名称</span><br></code></pre></td></tr></table></figure>
+
+<p>整数以两种方式传输：任意精度有符号整数或任意精度无符号整数。 gob格式没有int8、int16等歧视； 只有有符号和无符号整数。 如下所述，发送器以可变长度编码发送值； 接收者接受该值并将其存储在目标变量中。 浮点数始终使用 IEEE-754 64 位精度发送（见下文）。</p>
+<p>有符号整数可以接收到任何有符号整数变量中：int、int16 等； 无符号整数可以接收到任何无符号整数变量中； 浮点值可以接收到任何浮点变量中。 但是，目标变量必须能够表示该值，否则解码操作将失败。</p>
+<p>还支持结构、数组和切片。 结构仅对导出的字段进行编码和解码。 字符串和字节数组以一种特殊的、高效的表示方式支持（见下文）。 解码切片时，如果现有切片有容量，则切片将就地扩展； 如果没有，则分配一个新数组。 无论如何，生成的切片的长度会报告解码的元素数量。</p>
+<p>一般来说，如果需要分配，解码器会分配内存。 如果不是，它将使用从流中读取的值更新目标变量。 它不会首先初始化它们，因此如果目标是复合值，例如映射、结构或切片，则解码后的值将按元素合并到现有变量中。</p>
+<p>函数和通道不会在 gob 中发送。 尝试在顶层编码这样的值将失败。 chan 或 func 类型的 struct 字段被完全视为未导出的字段并被忽略。</p>
+<p>Gob 可以通过按照优先顺序调用相应的方法来对实现 GobEncoder 或 encoding.BinaryMarshaler 接口的任何类型的值进行编码。</p>
+<p>Gob 可以通过调用相应的方法来解码实现 GobDecoder 或 encoding.BinaryUnmarshaler 接口的任何类型的值，同样按照优先顺序。</p>
+<h3 id="编码细节"><a href="#编码细节" class="headerlink" title="编码细节"></a>编码细节</h3><p>本节记录了对大多数用户来说并不重要的编码和细节。 详细信息自下而上呈现。</p>
+<p>无符号整数以两种方式之一发送。 如果小于 128，则作为具有该值的字节发送。 否则，它将作为包含该值的最小长度大端（高字节优先）字节流发送，前面是一个包含字节计数的字节，取反。 因此，0 作为 (00) 传输，7 作为 (07) 传输，256 作为 (FE 01 00) 传输。</p>
+<p>布尔值在无符号整数中编码：0 表示假，1 表示真。</p>
+<p>有符号整数 i 编码在无符号整数 u 中。 在 u 中，向上的位 1 包含值； 位 0 表示是否应在收到时对其进行补充。 编码算法如下所示：</p>
+<figure class="highlight nim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nim"><span class="hljs-keyword">var</span> u <span class="hljs-type">uint</span><br><span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> &#123;<br>	u = (^<span class="hljs-type">uint</span>(i) &lt;&lt; <span class="hljs-number">1</span>) | <span class="hljs-number">1</span> // complement i, bit <span class="hljs-number">0</span> <span class="hljs-keyword">is</span> <span class="hljs-number">1</span><br>&#125; <span class="hljs-keyword">else</span> &#123;<br>	u = (<span class="hljs-type">uint</span>(i) &lt;&lt; <span class="hljs-number">1</span>) // <span class="hljs-keyword">do</span> <span class="hljs-keyword">not</span> complement i, bit <span class="hljs-number">0</span> <span class="hljs-keyword">is</span> <span class="hljs-number">0</span><br>&#125;<br>encodeUnsigned(u)<br></code></pre></td></tr></table></figure>
+
+<p>因此，低位类似于符号位，但将其设为补码位可确保最大的负整数不是特殊情况。例如，-129&#x3D;^128&#x3D;(^256&gt;&gt;1) 编码为 (FE 01 01)。</p>
+<p>浮点数始终作为 float64 值的表示形式发送。使用 math.Float64bits 将该值转换为 uint64。然后将 uint64 字节反转并作为常规无符号整数发送。字节反转意味着尾数的指数和高精度部分在前。由于低位通常为零，因此可以节省编码字节。例如，17.0 仅编码为三个字节 (FE 31 40)。</p>
+<p>字符串和字节切片作为无符号计数发送，后跟该值的许多未解释字节。</p>
+<p>所有其他切片和数组都作为无符号计数发送，后跟使用标准 gob 编码的许多元素递归。</p>
+<p>映射以无符号计数的形式发送，后跟许多键、元素对。发送空但非 nil 的映射，因此如果接收方尚未分配一个，则将始终在接收时分配一个，除非传输的映射为 nil 且不在顶层。</p>
+<p>在切片和数组以及映射中，所有元素，甚至是零值元素，都会被传输，即使所有元素都为零。</p>
+<p>结构作为（字段编号，字段值）对的序列发送。字段值使用其类型的标准 gob 编码以递归方式发送。如果字段的类型为零（数组除外；见上文），则从传输中省略。字段编号由编码结构的类型定义：编码类型的第一个字段是字段 0，第二个字段是字段 1，依此类推。在对值进行编码时，为提高效率，字段编号为 delta 编码，字段始终为按字段编号递增的顺序发送；因此，增量是无符号的。增量编码的初始化将字段编号设置为 -1，因此值为 7 的无符号整数字段 0 以无符号 delta &#x3D; 1、无符号值 &#x3D; 7 或 (01 07) 的形式传输。最后，在发送完所有字段后，一个终止标记表示结构的结束。该标记是 delta&#x3D;0 值，具有表示 (00)。</p>
+<p>不检查接口类型的兼容性；为了传输，所有接口类型都被视为单个“接口”类型的成员，类似于 int 或 []byte - 实际上它们都被视为接口{}。接口值以字符串的形式传输，该字符串标识正在发送的具体类型（必须通过调用 Register 预先定义的名称），后跟后面数据长度的字节数（因此，如果不能跳过，则可以跳过该值存储），然后是存储在接口值中的具体（动态）值的通常编码。 （nil 接口值由空字符串标识，不传输任何值。）解码器收到后，验证解包的具体项是否满足接收变量的接口。</p>
+<p>如果一个值被传递给 Encode 并且类型不是结构体（或指向结构体的指针等），为了简化处理，它被表示为一个字段的结构体。唯一可见的效果是在值之后编码一个零字节，就像在编码结构的最后一个字段之后一样，以便解码算法知道顶级值何时完成。</p>
+<p>类型的表示如下所述。当在编码器和解码器之间的给定连接上定义类型时，会为其分配有符号整数类型 id。当调用 Encoder.Encode(v) 时，它确保为 v 的类型及其所有元素分配了一个 id，然后它发送对 (typeid, encoded-v) 其中 typeid 是编码类型的类型 id v 和编码-v 是值 v 的 gob 编码。</p>
+<p>为了定义一个类型，编码器选择一个未使用的正类型 id 并发送对 (-type id, encoded-type)，其中 encoded-type 是由以下类型构成的 wireType 描述的 gob 编码：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">type</span> wireType struct &#123;<br>	<span class="hljs-type">ArrayT</span>           *<span class="hljs-type">ArrayType</span><br>	<span class="hljs-type">SliceT</span>           *<span class="hljs-type">SliceType</span><br>	<span class="hljs-type">StructT</span>          *<span class="hljs-type">StructType</span><br>	<span class="hljs-type">MapT</span>             *<span class="hljs-type">MapType</span><br>	<span class="hljs-type">GobEncoderT</span>      *gobEncoderType<br>	<span class="hljs-type">BinaryMarshalerT</span> *gobEncoderType<br>	<span class="hljs-type">TextMarshalerT</span>   *gobEncoderType<br><br>&#125;<br><span class="hljs-keyword">type</span> arrayType struct &#123;<br>	<span class="hljs-type">CommonType</span><br>	<span class="hljs-type">Elem</span> typeId<br>	<span class="hljs-type">Len</span>  int<br>&#125;<br><span class="hljs-keyword">type</span> <span class="hljs-type">CommonType</span> struct &#123;<br>	<span class="hljs-type">Name</span> string // the name of the struct type<br>	<span class="hljs-type">Id</span>  int    // the id of the type, repeated so it&#x27;s inside the type<br>&#125;<br><span class="hljs-keyword">type</span> sliceType struct &#123;<br>	<span class="hljs-type">CommonType</span><br>	<span class="hljs-type">Elem</span> typeId<br>&#125;<br><span class="hljs-keyword">type</span> structType struct &#123;<br>	<span class="hljs-type">CommonType</span><br>	<span class="hljs-type">Field</span> []*fieldType // the fields of the struct.<br>&#125;<br><span class="hljs-keyword">type</span> fieldType struct &#123;<br>	<span class="hljs-type">Name</span> string // the name of the field.<br>	<span class="hljs-type">Id</span>   int    // the type id of the field, which must be already defined<br>&#125;<br><span class="hljs-keyword">type</span> mapType struct &#123;<br>	<span class="hljs-type">CommonType</span><br>	<span class="hljs-type">Key</span>  typeId<br>	<span class="hljs-type">Elem</span> typeId<br>&#125;<br><span class="hljs-keyword">type</span> gobEncoderType struct &#123;<br>	<span class="hljs-type">CommonType</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果存在嵌套类型 id，则必须在顶级类型 id 用于描述编码的 v 之前定义所有内部类型 id 的类型。</p>
+<p>为简化设置，定义连接以先验地理解这些类型，以及基本 gob 类型 int、uint 等。它们的 id 为：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs d"><span class="hljs-built_in">bool</span>        <span class="hljs-number">1</span><br><span class="hljs-keyword">int</span>         <span class="hljs-number">2</span><br><span class="hljs-built_in">uint</span>        <span class="hljs-number">3</span><br><span class="hljs-built_in">float</span>       <span class="hljs-number">4</span><br>[]<span class="hljs-keyword">byte</span>      <span class="hljs-number">5</span><br><span class="hljs-built_in">string</span>      <span class="hljs-number">6</span><br>complex     <span class="hljs-number">7</span><br><span class="hljs-keyword">interface</span>   <span class="hljs-number">8</span><br><span class="hljs-comment">// gap for reserved ids.</span><br>WireType    <span class="hljs-number">16</span><br>ArrayType   <span class="hljs-number">17</span><br>CommonType  <span class="hljs-number">18</span><br>SliceType   <span class="hljs-number">19</span><br>StructType  <span class="hljs-number">20</span><br>FieldType   <span class="hljs-number">21</span><br><span class="hljs-comment">// 22 is slice of fieldType.</span><br>MapType     <span class="hljs-number">23</span><br></code></pre></td></tr></table></figure>
+
+<p>最后，通过调用 Encode 创建的每条消息前面都有一个已编码的无符号整数计数，该计数表示消息中剩余的字节数。 在初始类型名称之后，接口值以相同的方式包装； 实际上，接口值的作用类似于对 Encode 的递归调用。</p>
+<p>总之，一个 gob 流看起来像</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">(byteCount (-<span class="hljs-keyword">type</span> <span class="hljs-type">id, </span>encoding <span class="hljs-keyword">of</span> a wireType)* (<span class="hljs-keyword">type</span> <span class="hljs-type">id, </span>encoding <span class="hljs-keyword">of</span> a value))*<br></code></pre></td></tr></table></figure>
+
+<p>其中 * 表示零次或多次重复，并且值的类型 id 必须预定义或在流中的值之前定义。</p>
+<p>兼容性：未来对包的任何更改都将努力保持与使用先前版本编码的流的兼容性。 也就是说，这个包的任何发布版本都应该能够解码使用任何以前发布的版本写入的数据，但会受到安全修复等问题的影响。 背景见 Go 兼容性文档：<a target="_blank" rel="noopener" href="https://golang.org/doc/go1compat">https://golang.org/doc/go1compat</a></p>
+<p>有关 gob 线格式的设计讨论，请参阅“Gobs of data”：<a target="_blank" rel="noopener" href="https://blog.golang.org/gobs-of-data">https://blog.golang.org/gobs-of-data</a></p>
+<ul>
+<li><strong>示例一</strong></li>
+</ul>
+<p>这个例子展示了包的基本用法：创建一个编码器，传输一些值，用解码器接收它们。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs stylus">package <span class="hljs-selector-tag">main</span><br><br>import (<br>	<span class="hljs-string">&quot;bytes&quot;</span><br>	<span class="hljs-string">&quot;encoding/gob&quot;</span><br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;log&quot;</span><br>)<br><br>type P struct &#123;<br>	X, Y, Z int<br>	Name    string<br>&#125;<br><br>type Q struct &#123;<br>	X, Y *int32<br>	Name string<br>&#125;<br><br><span class="hljs-comment">// This example shows the basic usage of the package: Create an encoder,</span><br><span class="hljs-comment">// transmit some values, receive them with a decoder.</span><br>func <span class="hljs-selector-tag">main</span>() &#123;<br>	<span class="hljs-comment">// Initialize the encoder and decoder. Normally enc and dec would be</span><br>	<span class="hljs-comment">// bound to network connections and the encoder and decoder would</span><br>	<span class="hljs-comment">// run in different processes.</span><br>	<span class="hljs-selector-tag">var</span> network bytes<span class="hljs-selector-class">.Buffer</span>        <span class="hljs-comment">// Stand-in for a network connection</span><br>	enc := gob<span class="hljs-selector-class">.NewEncoder</span>(&amp;network) <span class="hljs-comment">// Will write to network.</span><br>	dec := gob<span class="hljs-selector-class">.NewDecoder</span>(&amp;network) <span class="hljs-comment">// Will read from network.</span><br><br>	<span class="hljs-comment">// Encode (send) some values.</span><br>	err := enc<span class="hljs-selector-class">.Encode</span>(P&#123;<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-string">&quot;Pythagoras&quot;</span>&#125;)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;encode error:&quot;</span>, err)<br>	&#125;<br>	err = enc<span class="hljs-selector-class">.Encode</span>(P&#123;<span class="hljs-number">1782</span>, <span class="hljs-number">1841</span>, <span class="hljs-number">1922</span>, <span class="hljs-string">&quot;Treehouse&quot;</span>&#125;)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;encode error:&quot;</span>, err)<br>	&#125;<br><br>	<span class="hljs-comment">// Decode (receive) and print the values.</span><br>	<span class="hljs-selector-tag">var</span> <span class="hljs-selector-tag">q</span> Q<br>	err = dec<span class="hljs-selector-class">.Decode</span>(&amp;q)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;decode error 1:&quot;</span>, err)<br>	&#125;<br>	fmt<span class="hljs-selector-class">.Printf</span>(<span class="hljs-string">&quot;%q: &#123;%d, %d&#125;\n&quot;</span>, <span class="hljs-selector-tag">q</span><span class="hljs-selector-class">.Name</span>, *<span class="hljs-selector-tag">q</span><span class="hljs-selector-class">.X</span>, *<span class="hljs-selector-tag">q</span>.Y)<br>	err = dec<span class="hljs-selector-class">.Decode</span>(&amp;q)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;decode error 2:&quot;</span>, err)<br>	&#125;<br>	fmt<span class="hljs-selector-class">.Printf</span>(<span class="hljs-string">&quot;%q: &#123;%d, %d&#125;\n&quot;</span>, <span class="hljs-selector-tag">q</span><span class="hljs-selector-class">.Name</span>, *<span class="hljs-selector-tag">q</span><span class="hljs-selector-class">.X</span>, *<span class="hljs-selector-tag">q</span>.Y)<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">Output:</span><br><br><span class="hljs-attr">&quot;Pythagoras&quot;:</span> &#123;<span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;<br><span class="hljs-attr">&quot;Treehouse&quot;:</span> &#123;<span class="hljs-number">1782</span>, <span class="hljs-number">1841</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>示例二</strong></li>
+</ul>
+<p>此示例传输一个实现自定义编码和解码方法的值。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs stylus">package <span class="hljs-selector-tag">main</span><br><br>import (<br>	<span class="hljs-string">&quot;bytes&quot;</span><br>	<span class="hljs-string">&quot;encoding/gob&quot;</span><br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;log&quot;</span><br>)<br><br><span class="hljs-comment">// The Vector type has unexported fields, which the package cannot access.</span><br><span class="hljs-comment">// We therefore write a BinaryMarshal/BinaryUnmarshal method pair to allow us</span><br><span class="hljs-comment">// to send and receive the type with the gob package. These interfaces are</span><br><span class="hljs-comment">// defined in the &quot;encoding&quot; package.</span><br><span class="hljs-comment">// We could equivalently use the locally defined GobEncode/GobDecoder</span><br><span class="hljs-comment">// interfaces.</span><br>type Vector struct &#123;<br>	x, y, z int<br>&#125;<br><br>func (v Vector) <span class="hljs-built_in">MarshalBinary</span>() (<span class="hljs-selector-attr">[]</span>byte, error) &#123;<br>	<span class="hljs-comment">// A simple encoding: plain text.</span><br>	<span class="hljs-selector-tag">var</span> <span class="hljs-selector-tag">b</span> bytes<span class="hljs-selector-class">.Buffer</span><br>	fmt<span class="hljs-selector-class">.Fprintln</span>(&amp;<span class="hljs-selector-tag">b</span>, v<span class="hljs-selector-class">.x</span>, v<span class="hljs-selector-class">.y</span>, v.z)<br>	return <span class="hljs-selector-tag">b</span><span class="hljs-selector-class">.Bytes</span>(), nil<br>&#125;<br><br><span class="hljs-comment">// UnmarshalBinary modifies the receiver so it must take a pointer receiver.</span><br>func (v *Vector) <span class="hljs-built_in">UnmarshalBinary</span>(data <span class="hljs-selector-attr">[]</span>byte) error &#123;<br>	<span class="hljs-comment">// A simple encoding: plain text.</span><br>	<span class="hljs-selector-tag">b</span> := bytes<span class="hljs-selector-class">.NewBuffer</span>(data)<br>	_, err := fmt<span class="hljs-selector-class">.Fscanln</span>(<span class="hljs-selector-tag">b</span>, &amp;v<span class="hljs-selector-class">.x</span>, &amp;v<span class="hljs-selector-class">.y</span>, &amp;v.z)<br>	return err<br>&#125;<br><br><span class="hljs-comment">// This example transmits a value that implements the custom encoding and decoding methods.</span><br>func <span class="hljs-selector-tag">main</span>() &#123;<br>	<span class="hljs-selector-tag">var</span> network bytes<span class="hljs-selector-class">.Buffer</span> <span class="hljs-comment">// Stand-in for the network.</span><br><br>	<span class="hljs-comment">// Create an encoder and send a value.</span><br>	enc := gob<span class="hljs-selector-class">.NewEncoder</span>(&amp;network)<br>	err := enc<span class="hljs-selector-class">.Encode</span>(Vector&#123;<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;encode:&quot;</span>, err)<br>	&#125;<br><br>	<span class="hljs-comment">// Create a decoder and receive a value.</span><br>	dec := gob<span class="hljs-selector-class">.NewDecoder</span>(&amp;network)<br>	<span class="hljs-selector-tag">var</span> v Vector<br>	err = dec<span class="hljs-selector-class">.Decode</span>(&amp;v)<br>	<span class="hljs-keyword">if</span> err != nil &#123;<br>		log<span class="hljs-selector-class">.Fatal</span>(<span class="hljs-string">&quot;decode:&quot;</span>, err)<br>	&#125;<br>	fmt<span class="hljs-selector-class">.Println</span>(v)<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">Output:</span><br><br>&#123;<span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>示例三</strong></li>
+</ul>
+<p>此示例显示如何对接口值进行编码。 与常规类型的主要区别在于注册实现接口的具体类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br>	<span class="hljs-string">&quot;bytes&quot;</span><br>	<span class="hljs-string">&quot;encoding/gob&quot;</span><br>	<span class="hljs-string">&quot;fmt&quot;</span><br>	<span class="hljs-string">&quot;log&quot;</span><br>	<span class="hljs-string">&quot;math&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> Point <span class="hljs-keyword">struct</span> &#123;<br>	X, Y <span class="hljs-type">int</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(p Point)</span></span> Hypotenuse() <span class="hljs-type">float64</span> &#123;<br>	<span class="hljs-keyword">return</span> math.Hypot(<span class="hljs-type">float64</span>(p.X), <span class="hljs-type">float64</span>(p.Y))<br>&#125;<br><br><span class="hljs-keyword">type</span> Pythagoras <span class="hljs-keyword">interface</span> &#123;<br>	Hypotenuse() <span class="hljs-type">float64</span><br>&#125;<br><br><span class="hljs-comment">// This example shows how to encode an interface value. The key</span><br><span class="hljs-comment">// distinction from regular types is to register the concrete type that</span><br><span class="hljs-comment">// implements the interface.</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> network bytes.Buffer <span class="hljs-comment">// Stand-in for the network.</span><br><br>	<span class="hljs-comment">// We must register the concrete type for the encoder and decoder (which would</span><br>	<span class="hljs-comment">// normally be on a separate machine from the encoder). On each end, this tells the</span><br>	<span class="hljs-comment">// engine which concrete type is being sent that implements the interface.</span><br>	gob.Register(Point&#123;&#125;)<br><br>	<span class="hljs-comment">// Create an encoder and send some values.</span><br>	enc := gob.NewEncoder(&amp;network)<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">3</span>; i++ &#123;<br>		interfaceEncode(enc, Point&#123;<span class="hljs-number">3</span> * i, <span class="hljs-number">4</span> * i&#125;)<br>	&#125;<br><br>	<span class="hljs-comment">// Create a decoder and receive some values.</span><br>	dec := gob.NewDecoder(&amp;network)<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">3</span>; i++ &#123;<br>		result := interfaceDecode(dec)<br>		fmt.Println(result.Hypotenuse())<br>	&#125;<br><br>&#125;<br><br><span class="hljs-comment">// interfaceEncode encodes the interface value into the encoder.</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">interfaceEncode</span><span class="hljs-params">(enc *gob.Encoder, p Pythagoras)</span></span> &#123;<br>	<span class="hljs-comment">// The encode will fail unless the concrete type has been</span><br>	<span class="hljs-comment">// registered. We registered it in the calling function.</span><br><br>	<span class="hljs-comment">// Pass pointer to interface so Encode sees (and hence sends) a value of</span><br>	<span class="hljs-comment">// interface type. If we passed p directly it would see the concrete type instead.</span><br>	<span class="hljs-comment">// See the blog post, &quot;The Laws of Reflection&quot; for background.</span><br>	err := enc.Encode(&amp;p)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		log.Fatal(<span class="hljs-string">&quot;encode:&quot;</span>, err)<br>	&#125;<br>&#125;<br><br><span class="hljs-comment">// interfaceDecode decodes the next interface value from the stream and returns it.</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">interfaceDecode</span><span class="hljs-params">(dec *gob.Decoder)</span></span> Pythagoras &#123;<br>	<span class="hljs-comment">// The decode will fail unless the concrete type on the wire has been</span><br>	<span class="hljs-comment">// registered. We registered it in the calling function.</span><br>	<span class="hljs-keyword">var</span> p Pythagoras<br>	err := dec.Decode(&amp;p)<br>	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>		log.Fatal(<span class="hljs-string">&quot;decode:&quot;</span>, err)<br>	&#125;<br>	<span class="hljs-keyword">return</span> p<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">Output:</span><br><br><span class="hljs-number">5</span><br><span class="hljs-number">10</span><br><span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://pkg.go.dev/encoding/gob">Go gob document</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" class="category-chain-item">后端开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Golang/">#Golang</a>
+      
+        <a href="/tags/Gob/">#Gob</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Go语言的序列化与反序列化（gob篇）</div>
+      <div>https://kevinlv1024.github.io/2022/07/24/zh-CN/go-encoding-gob-md/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kevin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月24日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/25/zh-CN/gitinit-remote-push/" title="本地项目git初始化并提交远程仓库">
+                        <span class="hidden-mobile">本地项目git初始化并提交远程仓库</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
