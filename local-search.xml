@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>VisualStudioCode插件Hardhat格式化</title>
+    <link href="/2023/08/14/VisualStudioCode%E6%8F%92%E4%BB%B6Hardhat%E6%A0%BC%E5%BC%8F%E5%8C%96/"/>
+    <url>/2023/08/14/VisualStudioCode%E6%8F%92%E4%BB%B6Hardhat%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<p>Hardhat for Visual Studio Code通过利用prettier-plugin-solidity为.sol文件提供格式化支持。</p><h2 id="将其设置为默认的Solidity格式化器"><a href="#将其设置为默认的Solidity格式化器" class="headerlink" title="将其设置为默认的Solidity格式化器"></a>将其设置为默认的Solidity格式化器</h2><p>如果您目前安装了其他solidity扩展，或者以前安装过，则可以将它们设置为solidity文件的默认格式化程序。</p><p>将Hardhat for Visual Studio Code设置为solidity文件的默认格式化程序:</p><ol><li>在Solidity文件中运行Format Document With命令，可以通过命令面板，也可以通过右键单击并选择上下文菜单:</li></ol><p><img src="/img/hardhat/format_document_with.webp"></p><ol start="2"><li>选择<code>Configure Default Formatter...</code></li></ol><p><img src="/img/hardhat/configure_default_formatter.webp"></p><ol start="3"><li>选择<code>Hardhat + Solidity</code>作为solidity文件的默认格式化程序</li></ol><p><img src="/img/hardhat/select_solidity_plus_hardhat.webp"></p><h2 id="格式化配置"><a href="#格式化配置" class="headerlink" title="格式化配置"></a>格式化配置</h2><p>将应用的默认格式规则取自pretier -plugin-solid，除了保留显式类型(而不是强制)。</p><p>要覆盖这些设置，请在项目的根目录添加一个pretierrc配置文件。加一个*.Sol文件覆盖到更漂亮的配置文件，并从默认值更改:</p><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">//</span> <span class="hljs-string">.prettierrc.json</span><br>&#123;<br>  <span class="hljs-string">&quot;overrides&quot;</span>: [<br>    &#123;<br>      <span class="hljs-string">&quot;files&quot;</span>: <span class="hljs-string">&quot;*.sol&quot;</span>,<br>      <span class="hljs-string">&quot;options&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;printWidth&quot;</span>: 80,<br>        <span class="hljs-string">&quot;tabWidth&quot;</span>: 4,<br>        <span class="hljs-string">&quot;useTabs&quot;</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-string">&quot;singleQuote&quot;</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-string">&quot;bracketSpacing&quot;</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-string">&quot;explicitTypes&quot;</span>: <span class="hljs-string">&quot;preserve&quot;</span><br>      &#125;<br>    &#125;<br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>hardhat</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hardhat</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hardhat工程支持</title>
+    <link href="/2023/08/14/Hardhat%E5%B7%A5%E7%A8%8B%E6%94%AF%E6%8C%81/"/>
+    <url>/2023/08/14/Hardhat%E5%B7%A5%E7%A8%8B%E6%94%AF%E6%8C%81/</url>
+    
+    <content type="html"><![CDATA[<p>Hardhat for Visual Studio Code为Hardhat项目中的solid文件提供了增强的功能，包括内联验证和快速修复。</p><p>要利用这些特性，请使用<code>File</code>菜单<code>Open Folder</code>，并选择包含<code>hardhat.config.&#123;js,ts&#125;</code>文件。</p><p>内联验证(显示编译器错误和对代码的警告)基于您的Hardhat配置文件。用于验证的solc solidity编译器的版本在此文件中设置，有关详细信息，请参阅Hardhat文档。</p><h1 id="Monorepo支持"><a href="#Monorepo支持" class="headerlink" title="Monorepo支持"></a>Monorepo支持</h1><p>Visual Studio Code的Hardhat将检测Hardhat项目(包含<code>hardhat.config.&#123;js,ts&#125;</code>文件)在monorepo中，当monorepo的根目录作为工作空间文件夹打开时。验证一个稳固性文件时使用的硬帽配置文件显示在状态栏上的稳固性部分:</p><p><img src="/img/hardhat/open-config.gif"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>hardhat</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hardhat</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>VisualStudioCode插件Hardhat概览</title>
+    <link href="/2023/08/14/VisualStudioCode%E6%8F%92%E4%BB%B6Hardhat/"/>
+    <url>/2023/08/14/VisualStudioCode%E6%8F%92%E4%BB%B6Hardhat/</url>
+    
+    <content type="html"><![CDATA[<p><code>Hardhat for Visual Studio Code</code>是一个VS Code的扩展，它增加了对Solidity的语言支持，并为Hardhat项目提供了编辑器集成。其他工具的集成也将在不久的将来出现。</p><p>用于<code>Visual Studio Code</code>的Hardhat增加了以下特性:</p><ul><li>代码补全</li><li>跳转到定义、类型定义和引用</li><li>符号重命名</li><li>Solidity代码格式化</li><li>根据编译器错误&#x2F;警告对Hardhat项目进行内联代码验证</li><li>悬停帮助变量，函数调用，错误，事件等。</li><li>从编译器错误&#x2F;警告中为Hardhat项目建议的代码操作(快速修复)</li></ul><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>Visual Studio Code</code>的Hardhat可以通过使用Visual Studio Code Marketplace来安装。</p><p>一些特性(如内联验证、快速修复)仍处于实验阶段，仅在Hardhat项目中启用，这是一个限制，将在未来的版本中解除。</p><p>这个扩展应该没有任何配置的工作。要了解更多关于它如何与Hardhat项目一起工作的信息，请阅读本节。如果格式化功能不起作用，或者您以前配置了另一个Solidity格式化程序，请参阅格式化部分。</p><h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="代码补全"><a href="#代码补全" class="headerlink" title="代码补全"></a>代码补全</h2><p><code>Visual Studio Code</code>的Hardhat会自动完成对现有符号(例如contract实例、全局可用变量和数组等内置类型)和导入指令(即自动完成导入文件的路径)的引用。</p><p>直接导入(那些不是以.&#x2F;或..&#x2F;开头的导入)是根据.&#x2F;node_modules的建议完成的。</p><p>相对导入根据当前solid文件的位置从文件系统中提取建议。</p><p><img src="/img/hardhat/import-completion.gif"></p><h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><p>用语义导航命令浏览你的代码库:</p><h3 id="跳转到定义"><a href="#跳转到定义" class="headerlink" title="跳转到定义"></a>跳转到定义</h3><p>导航到标识符的定义。</p><h3 id="跳转到类型定义"><a href="#跳转到类型定义" class="headerlink" title="跳转到类型定义"></a>跳转到类型定义</h3><p>导航到标识符的类型。</p><h3 id="跳转到引用"><a href="#跳转到引用" class="headerlink" title="跳转到引用"></a>跳转到引用</h3><p>显示游标下标识符的所有引用。</p><p><img src="/img/hardhat/navigation.gif"></p><h2 id="重命名"><a href="#重命名" class="headerlink" title="重命名"></a>重命名</h2><p>重命名游标下的标识符及其所有引用:</p><p><img src="/img/hardhat/rename.gif"></p><h2 id="格式化文档"><a href="#格式化文档" class="headerlink" title="格式化文档"></a>格式化文档</h2><p>对当前的文档进行Solidity格式化。</p><p>格式化配置可以通过.prettierrc文件覆盖，参见格式化配置。</p><p><img src="/img/hardhat/format.gif"></p><h2 id="悬停"><a href="#悬停" class="headerlink" title="悬停"></a>悬停</h2><p>将鼠标悬停在变量、函数调用、错误和事件上，将显示一个弹出窗口，显示类型和签名信息:</p><p><img src="/img/hardhat/on-hover.gif"></p><h2 id="内联代码验证（诊断）"><a href="#内联代码验证（诊断）" class="headerlink" title="内联代码验证（诊断）"></a>内联代码验证（诊断）</h2><p>当代码被编辑时，Visual Studio code的Hardhat将运行solc编译器对更改进行处理，并显示它找到的任何警告或错误。</p><p>此功能仅在作为Hardhat项目一部分的solid文件中可用，因为Hardhat用于导入解析，请参阅Hardhat项目了解详细信息。</p><p><img src="/img/hardhat/diagnostic.gif"></p><h2 id="代码的行为"><a href="#代码的行为" class="headerlink" title="代码的行为"></a>代码的行为</h2><p>代码操作或快速修复是建议用于解决solc警告或错误的重构。</p><p>有代码动作的警告&#x2F;错误行，会出现小灯泡;点击灯泡将提供触发代码操作的选项。</p><h3 id="在接口上实现缺失的功能"><a href="#在接口上实现缺失的功能" class="headerlink" title="在接口上实现缺失的功能"></a>在接口上实现缺失的功能</h3><p>实现接口的合约，但是缺少接口中指定的函数，将会得到一个solidity(3656)错误。</p><p>匹配的代码操作“从接口添加缺失的函数”将决定需要实现哪些函数来满足接口，并将它们作为存根添加到合约的主体中。</p><p><img src="/img/hardhat/implement-interface.gif"></p><h3 id="限制可变性"><a href="#限制可变性" class="headerlink" title="限制可变性"></a>限制可变性</h3><p>没有mutability关键字但不更新合约状态的函数将显示solidity(2018)警告，solc建议根据函数是否从状态读取添加view或pure关键字。</p><p>匹配的代码操作将view&#x2F;pure修饰符添加到函数声明中，通过将关键字添加到函数签名中来解析警告。</p><p><img src="/img/hardhat/constrain-mutability.gif"></p><h3 id="在继承的函数签名上添加virtual-override"><a href="#在继承的函数签名上添加virtual-override" class="headerlink" title="在继承的函数签名上添加virtual&#x2F;override"></a>在继承的函数签名上添加virtual&#x2F;override</h3><p>继承合约中的函数与基本合约中的函数具有相同的名称和参数，如果它不具有virtual关键字，则会在基本合约函数中导致solidity(4334)，如果继承合约函数中没有override关键字，则会导致solidity(9456)。</p><p>将虚拟说明符添加到函数定义和将重写说明符添加到函数定义代码操作出现在具有这些错误的函数上。</p><p><img src="/img/hardhat/virtual-override.gif"></p><h3 id="添加public-private函数签名"><a href="#添加public-private函数签名" class="headerlink" title="添加public&#x2F;private函数签名"></a>添加public&#x2F;private函数签名</h3><p>没有accessibility关键字的函数将导致solidity(4937)错误。</p><p>出现此错误的函数将出现两个代码操作:向声明添加公共可见性和向声明添加私有可见性。</p><p><img src="/img/hardhat/public-private.gif"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>hardhat</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hardhat</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
