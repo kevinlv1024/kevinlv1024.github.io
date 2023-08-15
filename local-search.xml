@@ -33,7 +33,7 @@
     <link href="/2023/08/14/Hardhat%E5%B7%A5%E7%A8%8B%E6%94%AF%E6%8C%81/"/>
     <url>/2023/08/14/Hardhat%E5%B7%A5%E7%A8%8B%E6%94%AF%E6%8C%81/</url>
     
-    <content type="html"><![CDATA[<p>Hardhat for Visual Studio Code为Hardhat项目中的solid文件提供了增强的功能，包括内联验证和快速修复。</p><p>要利用这些特性，请使用<code>File</code>菜单<code>Open Folder</code>，并选择包含<code>hardhat.config.&#123;js,ts&#125;</code>文件。</p><p>内联验证(显示编译器错误和对代码的警告)基于您的Hardhat配置文件。用于验证的solc solidity编译器的版本在此文件中设置，有关详细信息，请参阅Hardhat文档。</p><h1 id="Monorepo支持"><a href="#Monorepo支持" class="headerlink" title="Monorepo支持"></a>Monorepo支持</h1><p>Visual Studio Code的Hardhat将检测Hardhat项目(包含<code>hardhat.config.&#123;js,ts&#125;</code>文件)在monorepo中，当monorepo的根目录作为工作空间文件夹打开时。验证一个稳固性文件时使用的硬帽配置文件显示在状态栏上的稳固性部分:</p><p><img src="/img/hardhat/open-config.gif"></p>]]></content>
+    <content type="html"><![CDATA[<p>Hardhat for Visual Studio Code为Hardhat项目中的solid文件提供了增强的功能，包括内联验证和快速修复。</p><p>要利用这些特性，请使用<code>File</code>菜单<code>Open Folder</code>，并选择包含<code>hardhat.config.&#123;js,ts&#125;</code>文件。</p><p>内联验证(显示编译器错误和对代码的警告)基于您的Hardhat配置文件。用于验证的solc solidity编译器的版本在此文件中设置，有关详细信息，请参阅Hardhat文档。</p><h1 id="Monorepo支持"><a href="#Monorepo支持" class="headerlink" title="Monorepo支持"></a>Monorepo支持</h1><p>Visual Studio Code的Hardhat将检测Hardhat项目(包含<code>hardhat.config.&#123;js,ts&#125;</code>文件)在monorepo中，当monorepo的根目录作为工作空间文件夹打开时。</p><p>验证一个solidity文件时使用的hardhat配置文件显示在状态栏上的solidity部分:</p><p><img src="/img/hardhat/open-config.gif"></p>]]></content>
     
     
     <categories>
